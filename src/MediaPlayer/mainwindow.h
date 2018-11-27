@@ -17,19 +17,17 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_play_clicked();
+    //void seek(int seconds);
+    //void jump(const QModelIndex &index);
 
-    void on_pushButton_2_clicked();
 
-    void open();
-
-    void seek(int seconds);
-    void jump(const QModelIndex &index);
+    void on_open_clicked();
 
 private:
     Ui::MainWindow *ui;
     void loadMediaFile();
-    QMediaPlayer* player = nullptr;
+    QMediaPlayer* player = new QMediaPlayer(this);
     QVideoWidget* videoWidget = nullptr;
     std::string currentSong;
 

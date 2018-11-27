@@ -4,9 +4,11 @@
 #
 #-------------------------------------------------
 
-QT       += core gui \
-          multimedia \
-          multimediawidgets
+QT       += network \
+              xml \
+              multimedia \
+              multimediawidgets \
+              widgets
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = MediaPlayer
