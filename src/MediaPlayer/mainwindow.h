@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMediaPlayer>
 
 namespace Ui {
     class MainWindow;
@@ -18,9 +19,21 @@ public:
 private slots:
     void on_pushButton_clicked();
 
+    void on_pushButton_2_clicked();
+
+    void open();
+
+    void seek(int seconds);
+    void jump(const QModelIndex &index);
+
 private:
     Ui::MainWindow *ui;
-    void loadAudioFile();
+    void loadMediaFile();
+    QMediaPlayer* player = nullptr;
+    QVideoWidget* videoWidget = nullptr;
+    std::string currentSong;
+
 };
+
 
 #endif // MAINWINDOW_H

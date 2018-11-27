@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QFile>
+#include <QFileDialog>
+#include <QStandardPaths>
 #include <QTextStream>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -17,20 +19,22 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    loadAudioFile();
+    loadMediaFile();
 }
 
-void MainWindow::loadAudioFile() {
-    QFile inputFile(":/input.txt");
-    inputFile.open(QIODevice::ReadOnly);
+void MainWindow::loadMediaFile() {
+    QFileDialog fileDialog(this);
+    fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
+    fileDialog.setWindowTitle(tr("Open Audio File"));
 
-    QTextStream in(&inputFile);
-    QString line = in.readAll();
-    inputFile.close();
+    fileDialog.setDirectory(QStandardPaths::standardLocations(QStandardPaths::MoviesLocation).value(0, QDir::homePath()));
+    if (fileDialog.exec() == QDialog::Accepted) {
+        player->setMedia(fileDialog.getOpenFileUrl());
+        player->play();
+    }
+}
 
-    /*
-    ui->textEdit->setPlainText(line);
-    QTextCursor cursor = ui->textEdit->textCursor();
-    cursor.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor, 1);
-    */
+void MainWindow::on_pushButton_2_clicked()
+{
+
 }

@@ -12,10 +12,10 @@ MAKEFILE      = Makefile
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_MULTIMEDIAWIDGETS_LIB -DQT_MULTIMEDIA_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -std=gnu++11 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I../MediaPlayer -I. -I../../../../programs/qt/5.11.2/gcc_64/include -I../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets -I../../../../programs/qt/5.11.2/gcc_64/include/QtGui -I../../../../programs/qt/5.11.2/gcc_64/include/QtCore -I. -isystem /usr/include/libdrm -I. -I../../../../programs/qt/5.11.2/gcc_64/mkspecs/linux-g++
+INCPATH       = -I../MediaPlayer -I. -I../../../../programs/qt/5.11.2/gcc_64/include -I../../../../programs/qt/5.11.2/gcc_64/include/QtMultimediaWidgets -I../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia -I../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets -I../../../../programs/qt/5.11.2/gcc_64/include/QtGui -I../../../../programs/qt/5.11.2/gcc_64/include/QtNetwork -I../../../../programs/qt/5.11.2/gcc_64/include/QtCore -I. -isystem /usr/include/libdrm -I. -I../../../../programs/qt/5.11.2/gcc_64/mkspecs/linux-g++
 QMAKE         = /home/alqio/programs/qt/5.11.2/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -37,8 +37,8 @@ COMPRESS      = gzip -9f
 DISTNAME      = MediaPlayer1.0.0
 DISTDIR = /home/alqio/Documents/media-player-6/src/build-MediaPlayer-Desktop_Qt_5_11_2_GCC_64bit-Debug/.tmp/MediaPlayer1.0.0
 LINK          = g++
-LFLAGS        = -Wl,-rpath,/home/alqio/programs/qt/5.11.2/gcc_64/lib
-LIBS          = $(SUBLIBS) -L/home/alqio/programs/qt/5.11.2/gcc_64/lib -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
+LFLAGS        = -Wl,-rpath,/home/alqio/programs/qt/5.11.2/gcc_64/lib -Wl,-rpath-link,/home/alqio/programs/qt/5.11.2/gcc_64/lib
+LIBS          = $(SUBLIBS) -L/home/alqio/programs/qt/5.11.2/gcc_64/lib -lQt5MultimediaWidgets -lpulse-mainloop-glib -lpulse -lglib-2.0 -lQt5Multimedia -lQt5Widgets -lQt5Gui -lQt5Network -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -224,6 +224,7 @@ DIST          = ../../../../programs/qt/5.11.2/gcc_64/mkspecs/features/spec_pre.
 		../../../../programs/qt/5.11.2/gcc_64/mkspecs/features/qt_config.prf \
 		../../../../programs/qt/5.11.2/gcc_64/mkspecs/linux-g++/qmake.conf \
 		../../../../programs/qt/5.11.2/gcc_64/mkspecs/features/spec_post.prf \
+		../MediaPlayer/.qmake.stash \
 		../../../../programs/qt/5.11.2/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../../../../programs/qt/5.11.2/gcc_64/mkspecs/features/toolchain.prf \
 		../../../../programs/qt/5.11.2/gcc_64/mkspecs/features/default_pre.prf \
@@ -425,6 +426,7 @@ Makefile: ../MediaPlayer/MediaPlayer.pro ../../../../programs/qt/5.11.2/gcc_64/m
 		../../../../programs/qt/5.11.2/gcc_64/mkspecs/features/qt_config.prf \
 		../../../../programs/qt/5.11.2/gcc_64/mkspecs/linux-g++/qmake.conf \
 		../../../../programs/qt/5.11.2/gcc_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../../../programs/qt/5.11.2/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../../../../programs/qt/5.11.2/gcc_64/mkspecs/features/toolchain.prf \
 		../../../../programs/qt/5.11.2/gcc_64/mkspecs/features/default_pre.prf \
@@ -445,8 +447,11 @@ Makefile: ../MediaPlayer/MediaPlayer.pro ../../../../programs/qt/5.11.2/gcc_64/m
 		../../../../programs/qt/5.11.2/gcc_64/mkspecs/features/yacc.prf \
 		../../../../programs/qt/5.11.2/gcc_64/mkspecs/features/lex.prf \
 		../MediaPlayer/MediaPlayer.pro \
+		../../../../programs/qt/5.11.2/gcc_64/lib/libQt5MultimediaWidgets.prl \
+		../../../../programs/qt/5.11.2/gcc_64/lib/libQt5Multimedia.prl \
 		../../../../programs/qt/5.11.2/gcc_64/lib/libQt5Widgets.prl \
 		../../../../programs/qt/5.11.2/gcc_64/lib/libQt5Gui.prl \
+		../../../../programs/qt/5.11.2/gcc_64/lib/libQt5Network.prl \
 		../../../../programs/qt/5.11.2/gcc_64/lib/libQt5Core.prl
 	$(QMAKE) -o Makefile ../MediaPlayer/MediaPlayer.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
 ../../../../programs/qt/5.11.2/gcc_64/mkspecs/features/spec_pre.prf:
@@ -618,6 +623,7 @@ Makefile: ../MediaPlayer/MediaPlayer.pro ../../../../programs/qt/5.11.2/gcc_64/m
 ../../../../programs/qt/5.11.2/gcc_64/mkspecs/features/qt_config.prf:
 ../../../../programs/qt/5.11.2/gcc_64/mkspecs/linux-g++/qmake.conf:
 ../../../../programs/qt/5.11.2/gcc_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 ../../../../programs/qt/5.11.2/gcc_64/mkspecs/features/exclusive_builds.prf:
 ../../../../programs/qt/5.11.2/gcc_64/mkspecs/features/toolchain.prf:
 ../../../../programs/qt/5.11.2/gcc_64/mkspecs/features/default_pre.prf:
@@ -638,8 +644,11 @@ Makefile: ../MediaPlayer/MediaPlayer.pro ../../../../programs/qt/5.11.2/gcc_64/m
 ../../../../programs/qt/5.11.2/gcc_64/mkspecs/features/yacc.prf:
 ../../../../programs/qt/5.11.2/gcc_64/mkspecs/features/lex.prf:
 ../MediaPlayer/MediaPlayer.pro:
+../../../../programs/qt/5.11.2/gcc_64/lib/libQt5MultimediaWidgets.prl:
+../../../../programs/qt/5.11.2/gcc_64/lib/libQt5Multimedia.prl:
 ../../../../programs/qt/5.11.2/gcc_64/lib/libQt5Widgets.prl:
 ../../../../programs/qt/5.11.2/gcc_64/lib/libQt5Gui.prl:
+../../../../programs/qt/5.11.2/gcc_64/lib/libQt5Network.prl:
 ../../../../programs/qt/5.11.2/gcc_64/lib/libQt5Core.prl:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ../MediaPlayer/MediaPlayer.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
@@ -799,10 +808,29 @@ moc_mainwindow.cpp: ../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/QMai
 		../../../../programs/qt/5.11.2/gcc_64/include/QtGui/qtouchdevice.h \
 		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/qtabwidget.h \
 		../../../../programs/qt/5.11.2/gcc_64/include/QtGui/qicon.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/QMediaPlayer \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qmediaplayer.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qmediaobject.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qtmultimediaglobal.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qtmultimedia-config.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qmultimedia.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qmediacontent.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qmediaresource.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtNetwork/qnetworkrequest.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtNetwork/qtnetworkglobal.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtNetwork/qtnetwork-config.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtCore/QSharedDataPointer \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtCore/QString \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtCore/QUrl \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtCore/QVariant \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qmediaenumdebug.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtCore/qmetaobject.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qaudio.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtNetwork/qnetworkconfiguration.h \
 		../MediaPlayer/mainwindow.h \
 		moc_predefs.h \
 		../../../../programs/qt/5.11.2/gcc_64/bin/moc
-	/home/alqio/programs/qt/5.11.2/gcc_64/bin/moc $(DEFINES) --include /home/alqio/Documents/media-player-6/src/build-MediaPlayer-Desktop_Qt_5_11_2_GCC_64bit-Debug/moc_predefs.h -I/home/alqio/programs/qt/5.11.2/gcc_64/mkspecs/linux-g++ -I/home/alqio/Documents/media-player-6/src/MediaPlayer -I/home/alqio/programs/qt/5.11.2/gcc_64/include -I/home/alqio/programs/qt/5.11.2/gcc_64/include/QtWidgets -I/home/alqio/programs/qt/5.11.2/gcc_64/include/QtGui -I/home/alqio/programs/qt/5.11.2/gcc_64/include/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../MediaPlayer/mainwindow.h -o moc_mainwindow.cpp
+	/home/alqio/programs/qt/5.11.2/gcc_64/bin/moc $(DEFINES) --include /home/alqio/Documents/media-player-6/src/build-MediaPlayer-Desktop_Qt_5_11_2_GCC_64bit-Debug/moc_predefs.h -I/home/alqio/programs/qt/5.11.2/gcc_64/mkspecs/linux-g++ -I/home/alqio/Documents/media-player-6/src/MediaPlayer -I/home/alqio/programs/qt/5.11.2/gcc_64/include -I/home/alqio/programs/qt/5.11.2/gcc_64/include/QtMultimediaWidgets -I/home/alqio/programs/qt/5.11.2/gcc_64/include/QtMultimedia -I/home/alqio/programs/qt/5.11.2/gcc_64/include/QtWidgets -I/home/alqio/programs/qt/5.11.2/gcc_64/include/QtGui -I/home/alqio/programs/qt/5.11.2/gcc_64/include/QtNetwork -I/home/alqio/programs/qt/5.11.2/gcc_64/include/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../MediaPlayer/mainwindow.h -o moc_mainwindow.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -932,6 +960,25 @@ main.o: ../MediaPlayer/main.cpp ../MediaPlayer/mainwindow.h \
 		../../../../programs/qt/5.11.2/gcc_64/include/QtGui/qtouchdevice.h \
 		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/qtabwidget.h \
 		../../../../programs/qt/5.11.2/gcc_64/include/QtGui/qicon.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/QMediaPlayer \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qmediaplayer.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qmediaobject.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qtmultimediaglobal.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qtmultimedia-config.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qmultimedia.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qmediacontent.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qmediaresource.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtNetwork/qnetworkrequest.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtNetwork/qtnetworkglobal.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtNetwork/qtnetwork-config.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtCore/QSharedDataPointer \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtCore/QString \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtCore/QUrl \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtCore/QVariant \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qmediaenumdebug.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtCore/qmetaobject.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qaudio.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtNetwork/qnetworkconfiguration.h \
 		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/QApplication \
 		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/qapplication.h \
 		../../../../programs/qt/5.11.2/gcc_64/include/QtCore/qcoreapplication.h \
@@ -1048,7 +1095,58 @@ mainwindow.o: ../MediaPlayer/mainwindow.cpp ../MediaPlayer/mainwindow.h \
 		../../../../programs/qt/5.11.2/gcc_64/include/QtGui/qtouchdevice.h \
 		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/qtabwidget.h \
 		../../../../programs/qt/5.11.2/gcc_64/include/QtGui/qicon.h \
-		ui_mainwindow.h
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/QMediaPlayer \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qmediaplayer.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qmediaobject.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qtmultimediaglobal.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qtmultimedia-config.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qmultimedia.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qmediacontent.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qmediaresource.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtNetwork/qnetworkrequest.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtNetwork/qtnetworkglobal.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtNetwork/qtnetwork-config.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtCore/QSharedDataPointer \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtCore/QString \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtCore/QUrl \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtCore/QVariant \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qmediaenumdebug.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtCore/qmetaobject.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtMultimedia/qaudio.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtNetwork/qnetworkconfiguration.h \
+		ui_mainwindow.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/QApplication \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/qapplication.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtCore/qcoreapplication.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtCore/qeventloop.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtGui/qguiapplication.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtGui/qinputmethod.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/QLabel \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/qlabel.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/qframe.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/QMenuBar \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/qmenubar.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/qmenu.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/qaction.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/qactiongroup.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/QPushButton \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/qpushbutton.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/QStatusBar \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/qstatusbar.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/QToolBar \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/qtoolbar.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/QWidget \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtCore/QFile \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/QFileDialog \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/qfiledialog.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtCore/qdir.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtCore/qfileinfo.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtWidgets/qdialog.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtCore/QStandardPaths \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtCore/qstandardpaths.h \
+		../../../../programs/qt/5.11.2/gcc_64/include/QtCore/QTextStream
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../MediaPlayer/mainwindow.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
