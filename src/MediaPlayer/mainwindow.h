@@ -24,6 +24,15 @@ private slots:
 
     void on_open_clicked();
 
+    void on_seek_sliderMoved(int position);
+
+    void on_seek_sliderReleased();
+
+    //void on_seek_valueChanged(int value);
+
+    void on_volume_sliderMoved(int position);
+
+
 private:
     Ui::MainWindow *ui;
     void loadMediaFile();
