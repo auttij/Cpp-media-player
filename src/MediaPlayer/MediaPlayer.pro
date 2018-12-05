@@ -29,7 +29,8 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    mediaplayer.cpp
 
 HEADERS += \
         mainwindow.h
