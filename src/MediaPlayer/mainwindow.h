@@ -21,6 +21,7 @@ private slots:
     //void seek(int seconds);
     //void jump(const QModelIndex &index);
 
+    void on_meta_clicked();
 
     void on_open_clicked();
 
@@ -38,7 +39,7 @@ private slots:
 
     void update_seek_slider(int progress);
 
-    void get_meta_data(QMediaPlayer *player);
+    void get_meta_data();
 
     void on_media_status_changed(QMediaPlayer::MediaStatus status);
 

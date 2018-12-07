@@ -18,15 +18,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->open->setFixedSize(90,40);
     ui->curr_song->setFixedSize(200, 40);
+    ui->meta->setFixedSize(40, 40);
 
     player->setVolume(50);
     ui->volume->setSliderPosition(50);
     connect(player, &QMediaPlayer::durationChanged, this, &MainWindow::set_duration);
     connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::progress_media);
     connect(player, &QMediaPlayer::mediaStatusChanged, this, &MainWindow::on_media_status_changed);
-
-    player->setMedia(QUrl::fromLocalFile("C:\\Users\\juhan\\Music\\Spotifyä varten\\- Neon Genesis Evangelion - Opening HD BluRay Rip A Cruel Angel's Thesis (1).mp3"));
-
 }
 
 MainWindow::~MainWindow()
@@ -75,6 +73,10 @@ void MainWindow::on_play_clicked()
     }
 }
 
+void MainWindow::on_meta_clicked()
+{
+    get_meta_data();
+}
 
 void MainWindow::on_seek_sliderMoved(int ms)
 {
@@ -127,7 +129,7 @@ QString MainWindow::format_time(int seconds)
     return currentTime.toString(format);
 }
 
-void MainWindow::get_meta_data(QMediaPlayer *player)
+void MainWindow::get_meta_data()
 {
    // Get the list of keys there is metadata available for
    QStringList metadatalist = player->availableMetaData();
@@ -147,7 +149,7 @@ void MainWindow::get_meta_data(QMediaPlayer *player)
 void MainWindow::on_media_status_changed(QMediaPlayer::MediaStatus status)
 {
     if (status == QMediaPlayer::LoadedMedia)
-        get_meta_data(player);
+        get_meta_data();
 }
 
 
