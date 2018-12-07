@@ -50,6 +50,10 @@ private slots:
     void dragEnterEvent(QDragEnterEvent *event);
 
     //[UTIL]
+    void get_meta_data(QMediaPlayer *player);
+
+    void on_media_status_changed(QMediaPlayer::MediaStatus status);
+
     QString format_time(int seconds);
 
     void on_mute_clicked();

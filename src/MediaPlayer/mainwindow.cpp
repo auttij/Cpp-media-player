@@ -5,6 +5,7 @@
 #include <QStandardPaths>
 #include <QTextStream>
 #include <QTime>
+#include <QMediaMetaData>
 #include <QStyle>
 #include <QVideoWidget>
 #include <QMimeData>
@@ -150,4 +151,29 @@ void MainWindow::dropEvent(QDropEvent* event)
 {
     open_media(event->mimeData()->urls()[0]);
 }
+
+void MainWindow::get_meta_data(QMediaPlayer *player)
+{
+   // Get the list of keys there is metadata available for
+   QStringList metadatalist = player->availableMetaData();
+   int list_size = metadatalist.size();
+   QString metadata_key;
+   QVariant var_data;
+
+   for (int i = 0; i < list_size; i++)
+   {
+     metadata_key = metadatalist.at(i);
+     var_data = player->metaData(metadata_key);
+
+     qDebug() << metadata_key << var_data.toString();
+   }
+ }
+
+void MainWindow::on_media_status_changed(QMediaPlayer::MediaStatus status)
+{
+    if (status == QMediaPlayer::LoadedMedia)
+        get_meta_data(player);
+}
+
+
 
