@@ -24,6 +24,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->mute->setIcon(style()->standardIcon((QStyle::SP_MediaVolume)));
     ui->mute->setFixedSize(40,40);
+    ui->open->setFixedSize(90,40);
+    ui->curr_song->setFixedSize(200, 40);
+    ui->meta->setFixedSize(40, 40);
 
     ui->curr_song->setFixedSize(200, 40);
     ui->open->setFixedSize(90,40);
@@ -34,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     videoWidget = ui->videoWidget;
     player->setVideoOutput(videoWidget);
+    connect(player, &QMediaPlayer::mediaStatusChanged, this, &MainWindow::on_media_status_changed);
 }
 
 MainWindow::~MainWindow()
@@ -93,6 +97,10 @@ void MainWindow::on_mute_clicked()
 {
     player->setMuted(!player->isMuted());
     ui->mute->setIcon(style()->standardIcon(player->isMuted() ? QStyle::SP_MediaVolumeMuted : QStyle::SP_MediaVolume));
+
+void MainWindow::on_meta_clicked()
+{
+    get_meta_data();
 }
 
 void MainWindow::on_seek_sliderMoved(int ms)
@@ -152,7 +160,7 @@ void MainWindow::dropEvent(QDropEvent* event)
     open_media(event->mimeData()->urls()[0]);
 }
 
-void MainWindow::get_meta_data(QMediaPlayer *player)
+void MainWindow::get_meta_data()
 {
    // Get the list of keys there is metadata available for
    QStringList metadatalist = player->availableMetaData();
@@ -172,7 +180,7 @@ void MainWindow::get_meta_data(QMediaPlayer *player)
 void MainWindow::on_media_status_changed(QMediaPlayer::MediaStatus status)
 {
     if (status == QMediaPlayer::LoadedMedia)
-        get_meta_data(player);
+        get_meta_data();
 }
 
 

@@ -20,6 +20,8 @@ private slots:
 
     //[CLICK HANDLERS]
     void on_play_clicked();
+    
+    void on_meta_clicked();
 
     void on_open_clicked();
 
@@ -50,7 +52,7 @@ private slots:
     void dragEnterEvent(QDragEnterEvent *event);
 
     //[UTIL]
-    void get_meta_data(QMediaPlayer *player);
+    void get_meta_data();
 
     void on_media_status_changed(QMediaPlayer::MediaStatus status);
 
