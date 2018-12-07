@@ -19,3 +19,8 @@ use as follows:
 
 You may also add other new directories as needed, for example
 for testing tools.
+
+
+#INSTALL
+
+```sudo apt-get install libgl1-mesa-dev libpulse-dev```
