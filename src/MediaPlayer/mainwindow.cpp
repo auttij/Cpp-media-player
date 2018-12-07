@@ -5,6 +5,7 @@
 #include <QStandardPaths>
 #include <QTextStream>
 #include <QTime>
+#include <QMediaMetaData>
 #include <QStyle>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -22,6 +23,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->volume->setSliderPosition(50);
     connect(player, &QMediaPlayer::durationChanged, this, &MainWindow::set_duration);
     connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::progress_media);
+    connect(player, &QMediaPlayer::mediaStatusChanged, this, &MainWindow::on_media_status_changed);
+
+    player->setMedia(QUrl::fromLocalFile("C:\\Users\\juhan\\Music\\Spotifyä varten\\- Neon Genesis Evangelion - Opening HD BluRay Rip A Cruel Angel's Thesis (1).mp3"));
+
 }
 
 MainWindow::~MainWindow()
@@ -43,7 +48,7 @@ void MainWindow::loadMediaFile() {
     QFileDialog fileDialog(this);
     fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
     fileDialog.setWindowTitle(tr("Open Audio File"));
-    fileDialog.setDirectory(QStandardPaths::standardLocations(QStandardPaths::MoviesLocation).value(0, QDir::homePath()));
+    fileDialog.setDirectory(QStandardPaths::standardLocations(QStandardPaths::MusicLocation).value(0, QDir::homePath()));
     QStringList supportedMimeTypes = player->supportedMimeTypes();
 
     if (!supportedMimeTypes.isEmpty()) {
@@ -121,3 +126,29 @@ QString MainWindow::format_time(int seconds)
     }
     return currentTime.toString(format);
 }
+
+void MainWindow::get_meta_data(QMediaPlayer *player)
+{
+   // Get the list of keys there is metadata available for
+   QStringList metadatalist = player->availableMetaData();
+   int list_size = metadatalist.size();
+   QString metadata_key;
+   QVariant var_data;
+
+   for (int i = 0; i < list_size; i++)
+   {
+     metadata_key = metadatalist.at(i);
+     var_data = player->metaData(metadata_key);
+
+     qDebug() << metadata_key << var_data.toString();
+   }
+ }
+
+void MainWindow::on_media_status_changed(QMediaPlayer::MediaStatus status)
+{
+    if (status == QMediaPlayer::LoadedMedia)
+        get_meta_data(player);
+}
+
+
+

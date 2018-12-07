@@ -38,6 +38,10 @@ private slots:
 
     void update_seek_slider(int progress);
 
+    void get_meta_data(QMediaPlayer *player);
+
+    void on_media_status_changed(QMediaPlayer::MediaStatus status);
+
     QString format_time(int seconds);
 
 
