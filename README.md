@@ -19,3 +19,11 @@ use as follows:
 
 You may also add other new directories as needed, for example
 for testing tools.
+
+
+# Installation
+Install required libraries:
+
+```
+sudo apt-get install libgl1-mesa-dev libpulse-dev
+```
