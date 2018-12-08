@@ -26,6 +26,7 @@ void MainWindow::on_open_clicked()
     ui->curr_song->setText(player->media().canonicalUrl().fileName());
     player->setPosition(0);
     player->play();
+    
 }
 
 void MainWindow::loadMediaFile() {

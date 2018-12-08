@@ -32,7 +32,8 @@ SOURCES += \
         mainwindow.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    spectrograph.h
 
 FORMS += \
         mainwindow.ui
