@@ -32,6 +32,14 @@ private slots:
 
     void on_volume_sliderMoved(int position);
 
+    void set_duration(int duration);
+
+    void progress_media(int progress);
+
+    void update_seek_slider(int progress);
+
+    QString format_time(int seconds);
+
 
 private:
     Ui::MainWindow *ui;
@@ -39,6 +47,7 @@ private:
     QMediaPlayer* player = new QMediaPlayer(this);
     QVideoWidget* videoWidget = nullptr;
     std::string currentSong;
+    int duration_in_ms;
 
 };
 
