@@ -40,12 +40,11 @@ private slots:
 
     QString format_time(int seconds);
 
-
 private:
     Ui::MainWindow *ui;
     void loadMediaFile();
     QMediaPlayer* player = new QMediaPlayer(this);
-    QVideoWidget* videoWidget = nullptr;
+    QVideoWidget* videoWidget;
     std::string currentSong;
     int duration_in_ms;
 

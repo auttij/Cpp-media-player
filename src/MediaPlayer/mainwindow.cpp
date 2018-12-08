@@ -6,6 +6,7 @@
 #include <QTextStream>
 #include <QTime>
 #include <QStyle>
+#include <QVideoWidget>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -22,6 +23,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->volume->setSliderPosition(50);
     connect(player, &QMediaPlayer::durationChanged, this, &MainWindow::set_duration);
     connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::progress_media);
+
+
+
+    videoWidget = ui->videoWidget;
+    player->setVideoOutput(videoWidget);
 }
 
 MainWindow::~MainWindow()
@@ -42,7 +48,7 @@ void MainWindow::on_open_clicked()
 void MainWindow::loadMediaFile() {
     QFileDialog fileDialog(this);
     fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
-    fileDialog.setWindowTitle(tr("Open Audio File"));
+    fileDialog.setWindowTitle(tr("Open Media File"));
     fileDialog.setDirectory(QStandardPaths::standardLocations(QStandardPaths::MoviesLocation).value(0, QDir::homePath()));
     QStringList supportedMimeTypes = player->supportedMimeTypes();
 
@@ -56,7 +62,9 @@ void MainWindow::loadMediaFile() {
             player->setMedia(url);
         }
     }
-
+    //videoWidget->adjustSize();
+    //videoWidget->setAspectRatioMode()
+    //videoWidget->setFullScreen(true);
 }
 
 void MainWindow::on_play_clicked()

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>616</width>
-    <height>397</height>
+    <width>955</width>
+    <height>607</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -84,7 +84,7 @@
      <rect>
       <x>30</x>
       <y>0</y>
-      <width>511</width>
+      <width>551</width>
       <height>191</height>
      </rect>
     </property>
@@ -94,6 +94,16 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
+    <widget class="QVideoWidget" name="videoWidget" native="true">
+     <property name="geometry">
+      <rect>
+       <x>-1</x>
+       <y>-1</y>
+       <width>261</width>
+       <height>191</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
    <widget class="QPushButton" name="play">
     <property name="geometry">
@@ -133,8 +143,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>616</width>
-     <height>21</height>
+     <width>955</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>
@@ -149,6 +159,14 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QVideoWidget</class>
+   <extends>QWidget</extends>
+   <header>qvideowidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
