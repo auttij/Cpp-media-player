@@ -6,8 +6,10 @@
 #include <QTextStream>
 #include <QTime>
 #include <QStyle>
+#include <QVideoWidget>
 #include <QMimeData>
 #include <QDropEvent>
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -19,13 +21,17 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->play->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
     ui->play->setFixedSize(40,40);
 
-    ui->open->setFixedSize(90,40);
     ui->curr_song->setFixedSize(200, 40);
 
     player->setVolume(50);
     ui->volume->setSliderPosition(50);
     connect(player, &QMediaPlayer::durationChanged, this, &MainWindow::set_duration);
     connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::progress_media);
+
+
+
+    videoWidget = ui->videoWidget;
+    player->setVideoOutput(videoWidget);
 }
 
 MainWindow::~MainWindow()
@@ -41,7 +47,7 @@ void MainWindow::on_open_clicked()
 void MainWindow::loadMediaFile() {
     QFileDialog fileDialog(this);
     fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
-    fileDialog.setWindowTitle(tr("Open Audio File"));
+    fileDialog.setWindowTitle(tr("Open Media File"));
     fileDialog.setDirectory(QStandardPaths::standardLocations(QStandardPaths::MoviesLocation).value(0, QDir::homePath()));
     QStringList supportedMimeTypes = player->supportedMimeTypes();
 
