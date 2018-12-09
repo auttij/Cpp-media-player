@@ -16,7 +16,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->play->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
     ui->play->setFixedSize(40,40);
 
-    ui->open->setFixedSize(90,40);
     ui->curr_song->setFixedSize(200, 40);
 
     player->setVolume(50);
@@ -62,9 +61,7 @@ void MainWindow::loadMediaFile() {
             player->setMedia(url);
         }
     }
-    //videoWidget->adjustSize();
-    //videoWidget->setAspectRatioMode()
-    //videoWidget->setFullScreen(true);
+
 }
 
 void MainWindow::on_play_clicked()

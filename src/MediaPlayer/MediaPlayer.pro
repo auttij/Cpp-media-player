@@ -30,13 +30,16 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    mediaplayer.cpp
+    mediawidget.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    mediawidget.h
 
 FORMS += \
         mainwindow.ui
+     #   mainwindow_copy.ui \
+    #mainwindow_copy1.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
