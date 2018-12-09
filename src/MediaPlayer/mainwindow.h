@@ -17,10 +17,13 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_play_clicked();
-    //void seek(int seconds);
-    //void jump(const QModelIndex &index);
+    void init_media(QString name);
 
+    void play_media();
+
+    void pause_media();
+
+    void on_play_clicked();
 
     void on_open_clicked();
 
@@ -39,6 +42,11 @@ private slots:
     void update_seek_slider(int progress);
 
     QString format_time(int seconds);
+
+    void dropEvent(QDropEvent* event);
+
+    void dragEnterEvent(QDragEnterEvent *event);
+
 
 private:
     Ui::MainWindow *ui;

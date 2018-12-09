@@ -7,12 +7,17 @@
 #include <QTime>
 #include <QStyle>
 #include <QVideoWidget>
+#include <QMimeData>
+#include <QDropEvent>
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setAcceptDrops(true);
+
     ui->play->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
     ui->play->setFixedSize(40,40);
 
@@ -37,11 +42,6 @@ MainWindow::~MainWindow()
 void MainWindow::on_open_clicked()
 {
     loadMediaFile();
-    ui->curr_song->setText(player->media().canonicalUrl().fileName()); //TODO: song name has file extension suffix in the end
-    player->setPosition(0);
-    player->play();
-    ui->play->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
-
 }
 
 void MainWindow::loadMediaFile() {
@@ -61,20 +61,32 @@ void MainWindow::loadMediaFile() {
             player->setMedia(url);
         }
     }
+    init_media(player->media().canonicalUrl().fileName()); //TODO: media name has file extension suffix in the end
+    play_media();
+}
 
+void MainWindow::init_media(QString name)
+{
+    ui->curr_song->setText(name);
+    player->setPosition(0);
+}
+
+void MainWindow::play_media()
+{
+    player->play();
+    ui->play->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
+}
+
+void MainWindow::pause_media()
+{
+    player->pause();
+    ui->play->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
 }
 
 void MainWindow::on_play_clicked()
 {
-    if(player->state() == player->PausedState) {
-        player->play();
-        ui->play->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
-    } else {
-        player->pause();
-        ui->play->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
-    }
+    player->state() == player->PausedState ? play_media() : pause_media();
 }
-
 
 void MainWindow::on_seek_sliderMoved(int ms)
 {
@@ -83,11 +95,9 @@ void MainWindow::on_seek_sliderMoved(int ms)
 
 void MainWindow::on_seek_sliderReleased()
 {
-    qInfo() << ui->seek->value();
     update_seek_slider(ui->seek->value());
 
 }
-
 
 void MainWindow::on_volume_sliderMoved(int volume)
 {
@@ -116,13 +126,37 @@ void MainWindow::progress_media(int progress)
 
 QString MainWindow::format_time(int seconds)
 {
-
     int minutes = seconds / 60;
     int hours = minutes / 60 ;
     QTime currentTime(hours, minutes, seconds % 60); //TODO: current time for song is updated first time when 2 seconds are passed for some reason
-    QString format = "mm:ss";
-    if(hours > 0){
-        format = "hh:mm:ss";
-    }
+    QString format = hours >= 1 ? "hh:mm:ss" : "mm:ss";
     return currentTime.toString(format);
+}
+
+void MainWindow::dragEnterEvent(QDragEnterEvent *event)
+{
+    if (event->mimeData()->hasUrls()) {
+        event->acceptProposedAction();
+    }
+}
+
+void MainWindow::dropEvent(QDropEvent* event)
+{
+  const QMimeData* mimeData = event->mimeData();
+
+  // check for our needed mime type, here a file or a list of files
+
+    QStringList pathList;
+    QList<QUrl> urlList = mimeData->urls();
+
+    // extract the local paths of the files
+    for (int i = 0; i < urlList.size() && i < 32; ++i)
+    {
+      pathList.append(urlList.at(i).toLocalFile());
+    }
+
+    // call a function to open the files
+    player->setMedia(mimeData->urls()[0]);
+    init_media(player->media().canonicalUrl().fileName());
+    play_media();
 }
