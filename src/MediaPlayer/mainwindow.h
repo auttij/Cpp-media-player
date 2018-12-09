@@ -17,12 +17,8 @@ public:
     ~MainWindow();
 
 private slots:
-    void init_media(QString name);
 
-    void play_media();
-
-    void pause_media();
-
+    //[CLICK HANDLERS]
     void on_play_clicked();
 
     void on_open_clicked();
@@ -31,9 +27,16 @@ private slots:
 
     void on_seek_sliderReleased();
 
-    //void on_seek_valueChanged(int value);
-
     void on_volume_sliderMoved(int position);
+
+    //[HELPERS]
+    void open_media(QUrl url);
+
+    void init_media(QString name);
+
+    void play_media();
+
+    void pause_media();
 
     void set_duration(int duration);
 
@@ -41,12 +44,13 @@ private slots:
 
     void update_seek_slider(int progress);
 
-    QString format_time(int seconds);
-
+    //[DRAG & DROP]
     void dropEvent(QDropEvent* event);
 
     void dragEnterEvent(QDragEnterEvent *event);
 
+    //[UTIL]
+    QString format_time(int seconds);
 
 private:
     Ui::MainWindow *ui;
