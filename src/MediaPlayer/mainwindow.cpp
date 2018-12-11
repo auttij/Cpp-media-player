@@ -16,15 +16,18 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->play->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
     ui->play->setFixedSize(40,40);
 
+    ui->meta->setIcon(style()->standardIcon(QStyle::SP_FileIcon));
+    ui->meta->setFixedSize(40, 40);
+
     ui->open->setFixedSize(90,40);
     ui->curr_song->setFixedSize(200, 40);
-    ui->meta->setFixedSize(40, 40);
 
     player->setVolume(50);
     ui->volume->setSliderPosition(50);
     connect(player, &QMediaPlayer::durationChanged, this, &MainWindow::set_duration);
     connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::progress_media);
-    connect(player, &QMediaPlayer::mediaStatusChanged, this, &MainWindow::on_media_status_changed);
+//    connect(player, SIGNAL(ui->meta), )
+//    connect(player, &QMediaPlayer::mediaStatusChanged, this, &MainWindow::on_media_status_changed);
 }
 
 MainWindow::~MainWindow()
@@ -71,11 +74,6 @@ void MainWindow::on_play_clicked()
         player->pause();
         ui->play->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
     }
-}
-
-void MainWindow::on_meta_clicked()
-{
-    get_meta_data();
 }
 
 void MainWindow::on_seek_sliderMoved(int ms)
@@ -129,6 +127,14 @@ QString MainWindow::format_time(int seconds)
     return currentTime.toString(format);
 }
 
+void MainWindow::on_meta_clicked()
+{
+    if(player->mediaStatus() == QMediaPlayer::NoMedia)
+        qInfo() << "No media playing";
+    else
+        get_meta_data();
+}
+
 void MainWindow::get_meta_data()
 {
    // Get the list of keys there is metadata available for
@@ -145,12 +151,6 @@ void MainWindow::get_meta_data()
      qDebug() << metadata_key << var_data.toString();
    }
  }
-
-void MainWindow::on_media_status_changed(QMediaPlayer::MediaStatus status)
-{
-    if (status == QMediaPlayer::LoadedMedia)
-        get_meta_data();
-}
 
 
 
