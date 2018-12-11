@@ -100,6 +100,7 @@ void MainWindow::on_mute_clicked()
 {
     player->setMuted(!player->isMuted());
     ui->mute->setIcon(style()->standardIcon(player->isMuted() ? QStyle::SP_MediaVolumeMuted : QStyle::SP_MediaVolume));
+}
 
 void MainWindow::on_seek_sliderMoved(int ms)
 {
@@ -156,6 +157,8 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 void MainWindow::dropEvent(QDropEvent* event)
 {
     open_media(event->mimeData()->urls()[0]);
+}
+
 void MainWindow::on_meta_clicked()
 {
     if(player->mediaStatus() == QMediaPlayer::NoMedia)
