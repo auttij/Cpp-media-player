@@ -24,9 +24,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->mute->setIcon(style()->standardIcon((QStyle::SP_MediaVolume)));
     ui->mute->setFixedSize(40,40);
+    
+    ui->meta->setIcon(style()->standardIcon(QStyle::SP_FileIcon));
+    ui->meta->setFixedSize(40, 40);
+
     ui->open->setFixedSize(90,40);
     ui->curr_song->setFixedSize(200, 40);
-    ui->meta->setFixedSize(40, 40);
 
     ui->curr_song->setFixedSize(200, 40);
     ui->open->setFixedSize(90,40);
@@ -98,11 +101,6 @@ void MainWindow::on_mute_clicked()
     player->setMuted(!player->isMuted());
     ui->mute->setIcon(style()->standardIcon(player->isMuted() ? QStyle::SP_MediaVolumeMuted : QStyle::SP_MediaVolume));
 
-void MainWindow::on_meta_clicked()
-{
-    get_meta_data();
-}
-
 void MainWindow::on_seek_sliderMoved(int ms)
 {
     ui->time_passed->setText(format_time(ms / 1000));
@@ -158,6 +156,12 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 void MainWindow::dropEvent(QDropEvent* event)
 {
     open_media(event->mimeData()->urls()[0]);
+void MainWindow::on_meta_clicked()
+{
+    if(player->mediaStatus() == QMediaPlayer::NoMedia)
+        qInfo() << "No media playing";
+    else
+        get_meta_data();
 }
 
 void MainWindow::get_meta_data()
@@ -176,12 +180,6 @@ void MainWindow::get_meta_data()
      qDebug() << metadata_key << var_data.toString();
    }
  }
-
-void MainWindow::on_media_status_changed(QMediaPlayer::MediaStatus status)
-{
-    if (status == QMediaPlayer::LoadedMedia)
-        get_meta_data();
-}
 
 
 

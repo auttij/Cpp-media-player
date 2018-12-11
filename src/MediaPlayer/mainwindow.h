@@ -54,8 +54,6 @@ private slots:
     //[UTIL]
     void get_meta_data();
 
-    void on_media_status_changed(QMediaPlayer::MediaStatus status);
-
     QString format_time(int seconds);
 
     void on_mute_clicked();
