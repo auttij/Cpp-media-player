@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //setAcceptDrops(true);
+    setAcceptDrops(true);
 
     ui->play->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
     ui->play->setFixedSize(60,60);
