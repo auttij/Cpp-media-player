@@ -151,3 +151,10 @@ void MainWindow::dropEvent(QDropEvent* event)
     open_media(event->mimeData()->urls()[0]);
 }
 
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Space) {
+        player->state() == player->PausedState ? play_media() : pause_media();
+    }
+}
+
