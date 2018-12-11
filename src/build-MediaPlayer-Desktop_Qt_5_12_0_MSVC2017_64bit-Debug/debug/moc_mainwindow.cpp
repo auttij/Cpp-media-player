@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[20];
-    char stringdata0[290];
+    QByteArrayData data[17];
+    char stringdata0[233];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -46,11 +46,8 @@ QT_MOC_LITERAL(11, 156, 14), // "progress_media"
 QT_MOC_LITERAL(12, 171, 8), // "progress"
 QT_MOC_LITERAL(13, 180, 18), // "update_seek_slider"
 QT_MOC_LITERAL(14, 199, 13), // "get_meta_data"
-QT_MOC_LITERAL(15, 213, 23), // "on_media_status_changed"
-QT_MOC_LITERAL(16, 237, 25), // "QMediaPlayer::MediaStatus"
-QT_MOC_LITERAL(17, 263, 6), // "status"
-QT_MOC_LITERAL(18, 270, 11), // "format_time"
-QT_MOC_LITERAL(19, 282, 7) // "seconds"
+QT_MOC_LITERAL(15, 213, 11), // "format_time"
+QT_MOC_LITERAL(16, 225, 7) // "seconds"
 
     },
     "MainWindow\0on_play_clicked\0\0on_meta_clicked\0"
@@ -59,8 +56,6 @@ QT_MOC_LITERAL(19, 282, 7) // "seconds"
     "on_volume_sliderMoved\0set_duration\0"
     "duration\0progress_media\0progress\0"
     "update_seek_slider\0get_meta_data\0"
-    "on_media_status_changed\0"
-    "QMediaPlayer::MediaStatus\0status\0"
     "format_time\0seconds"
 };
 #undef QT_MOC_LITERAL
@@ -71,7 +66,7 @@ static const uint qt_meta_data_MainWindow[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      12,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -79,18 +74,17 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   74,    2, 0x08 /* Private */,
-       3,    0,   75,    2, 0x08 /* Private */,
-       4,    0,   76,    2, 0x08 /* Private */,
-       5,    1,   77,    2, 0x08 /* Private */,
-       7,    0,   80,    2, 0x08 /* Private */,
-       8,    1,   81,    2, 0x08 /* Private */,
-       9,    1,   84,    2, 0x08 /* Private */,
-      11,    1,   87,    2, 0x08 /* Private */,
-      13,    1,   90,    2, 0x08 /* Private */,
-      14,    0,   93,    2, 0x08 /* Private */,
-      15,    1,   94,    2, 0x08 /* Private */,
-      18,    1,   97,    2, 0x08 /* Private */,
+       1,    0,   69,    2, 0x08 /* Private */,
+       3,    0,   70,    2, 0x08 /* Private */,
+       4,    0,   71,    2, 0x08 /* Private */,
+       5,    1,   72,    2, 0x08 /* Private */,
+       7,    0,   75,    2, 0x08 /* Private */,
+       8,    1,   76,    2, 0x08 /* Private */,
+       9,    1,   79,    2, 0x08 /* Private */,
+      11,    1,   82,    2, 0x08 /* Private */,
+      13,    1,   85,    2, 0x08 /* Private */,
+      14,    0,   88,    2, 0x08 /* Private */,
+      15,    1,   89,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -103,8 +97,7 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void, QMetaType::Int,   12,
     QMetaType::Void, QMetaType::Int,   12,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 16,   17,
-    QMetaType::QString, QMetaType::Int,   19,
+    QMetaType::QString, QMetaType::Int,   16,
 
        0        // eod
 };
@@ -125,21 +118,9 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 7: _t->progress_media((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 8: _t->update_seek_slider((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 9: _t->get_meta_data(); break;
-        case 10: _t->on_media_status_changed((*reinterpret_cast< QMediaPlayer::MediaStatus(*)>(_a[1]))); break;
-        case 11: { QString _r = _t->format_time((*reinterpret_cast< int(*)>(_a[1])));
+        case 10: { QString _r = _t->format_time((*reinterpret_cast< int(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = std::move(_r); }  break;
         default: ;
-        }
-    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        switch (_id) {
-        default: *reinterpret_cast<int*>(_a[0]) = -1; break;
-        case 10:
-            switch (*reinterpret_cast<int*>(_a[1])) {
-            default: *reinterpret_cast<int*>(_a[0]) = -1; break;
-            case 0:
-                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QMediaPlayer::MediaStatus >(); break;
-            }
-            break;
         }
     }
 }
@@ -173,13 +154,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 12)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 12;
+        _id -= 11;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 12)
-            qt_static_metacall(this, _c, _id, _a);
-        _id -= 12;
+        if (_id < 11)
+            *reinterpret_cast<int*>(_a[0]) = -1;
+        _id -= 11;
     }
     return _id;
 }
