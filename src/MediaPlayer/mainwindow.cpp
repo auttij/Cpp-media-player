@@ -26,8 +26,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->volume->setSliderPosition(50);
     connect(player, &QMediaPlayer::durationChanged, this, &MainWindow::set_duration);
     connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::progress_media);
-//    connect(player, SIGNAL(ui->meta), )
-//    connect(player, &QMediaPlayer::mediaStatusChanged, this, &MainWindow::on_media_status_changed);
 }
 
 MainWindow::~MainWindow()
