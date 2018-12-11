@@ -9,7 +9,7 @@
 #include <QVideoWidget>
 #include <QMimeData>
 #include <QDropEvent>
-
+#include <QVariant>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -19,16 +19,17 @@ MainWindow::MainWindow(QWidget *parent) :
     setAcceptDrops(true);
 
     ui->play->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
-    ui->play->setFixedSize(40,40);
+    ui->play->setFixedSize(60,60);
+
+    ui->mute->setIcon(style()->standardIcon((QStyle::SP_MediaVolume)));
+    ui->mute->setFixedSize(40,40);
 
     ui->curr_song->setFixedSize(200, 40);
-
+    ui->open->setFixedSize(90,40);
     player->setVolume(50);
     ui->volume->setSliderPosition(50);
     connect(player, &QMediaPlayer::durationChanged, this, &MainWindow::set_duration);
     connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::progress_media);
-
-
 
     videoWidget = ui->videoWidget;
     player->setVideoOutput(videoWidget);
@@ -48,20 +49,19 @@ void MainWindow::loadMediaFile() {
     QFileDialog fileDialog(this);
     fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
     fileDialog.setWindowTitle(tr("Open Media File"));
-    fileDialog.setDirectory(QStandardPaths::standardLocations(QStandardPaths::MoviesLocation).value(0, QDir::homePath()));
-    QStringList supportedMimeTypes = player->supportedMimeTypes();
+    fileDialog.setDirectory(QStandardPaths::standardLocations(QStandardPaths::MoviesLocation).value(0, QDir::homePath())); //TODO: Change start location
 
-    if (!supportedMimeTypes.isEmpty()) {
-        supportedMimeTypes.append("audio/x-m3u"); // MP3 playlists
-        fileDialog.setMimeTypeFilters(supportedMimeTypes);
+    if (fileDialog.exec()) {
+        open_media(fileDialog.selectedUrls()[0]);
     }
+}
 
-    if (fileDialog.exec() == QDialog::Accepted) {
-        for(auto &url: fileDialog.selectedUrls()){
-            player->setMedia(url);
-        }
-    }
-    init_media(player->media().canonicalUrl().fileName()); //TODO: media name has file extension suffix in the end
+void MainWindow::open_media(QUrl url)
+{
+    player->setMedia(url);
+    QString title = player->metaData("title").toString();
+    QString name = !title.isEmpty() ? title : url.fileName();
+    init_media(name); //TODO: media name has file extension suffix in the end
     play_media();
 }
 
@@ -86,6 +86,12 @@ void MainWindow::pause_media()
 void MainWindow::on_play_clicked()
 {
     player->state() == player->PausedState ? play_media() : pause_media();
+}
+
+void MainWindow::on_mute_clicked()
+{
+    player->setMuted(!player->isMuted());
+    ui->mute->setIcon(style()->standardIcon(player->isMuted() ? QStyle::SP_MediaVolumeMuted : QStyle::SP_MediaVolume));
 }
 
 void MainWindow::on_seek_sliderMoved(int ms)
@@ -142,21 +148,6 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 
 void MainWindow::dropEvent(QDropEvent* event)
 {
-  const QMimeData* mimeData = event->mimeData();
-
-  // check for our needed mime type, here a file or a list of files
-
-    QStringList pathList;
-    QList<QUrl> urlList = mimeData->urls();
-
-    // extract the local paths of the files
-    for (int i = 0; i < urlList.size() && i < 32; ++i)
-    {
-      pathList.append(urlList.at(i).toLocalFile());
-    }
-
-    // call a function to open the files
-    player->setMedia(mimeData->urls()[0]);
-    init_media(player->media().canonicalUrl().fileName());
-    play_media();
+    open_media(event->mimeData()->urls()[0]);
 }
+
