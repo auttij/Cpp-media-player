@@ -62,6 +62,9 @@ private:
     std::string currentSong;
     int duration_in_ms;
 
+protected:
+    void keyPressEvent(QKeyEvent *event) override;
+
 };
 
 
