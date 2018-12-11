@@ -52,6 +52,8 @@ private slots:
     //[UTIL]
     QString format_time(int seconds);
 
+    void on_mute_clicked();
+
 private:
     Ui::MainWindow *ui;
     void loadMediaFile();

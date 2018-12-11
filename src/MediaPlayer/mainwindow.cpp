@@ -21,14 +21,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->play->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
     ui->play->setFixedSize(60,60);
 
+    ui->mute->setIcon(style()->standardIcon((QStyle::SP_MediaVolume)));
+    ui->mute->setFixedSize(40,40);
+
     ui->curr_song->setFixedSize(200, 40);
     ui->open->setFixedSize(90,40);
     player->setVolume(50);
     ui->volume->setSliderPosition(50);
     connect(player, &QMediaPlayer::durationChanged, this, &MainWindow::set_duration);
     connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::progress_media);
-
-
 
     videoWidget = ui->videoWidget;
     player->setVideoOutput(videoWidget);
@@ -87,6 +88,13 @@ void MainWindow::on_play_clicked()
     player->state() == player->PausedState ? play_media() : pause_media();
 }
 
+void MainWindow::on_mute_clicked()
+{
+    qInfo() << player->isMuted();
+    player->setMuted(!player->isMuted());
+    ui->mute->setIcon(style()->standardIcon(player->isMuted() ? QStyle::SP_MediaVolumeMuted : QStyle::SP_MediaVolume));
+}
+
 void MainWindow::on_seek_sliderMoved(int ms)
 {
     ui->time_passed->setText(format_time(ms / 1000));
@@ -143,3 +151,4 @@ void MainWindow::dropEvent(QDropEvent* event)
 {
     open_media(event->mimeData()->urls()[0]);
 }
+
