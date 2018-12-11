@@ -19,8 +19,20 @@
      <layout class="QHBoxLayout" name="video_and_frame">
       <item>
        <widget class="MediaWidget" name="videoWidget" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>442</width>
+          <height>270</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>442</width>
+          <height>270</height>
+         </size>
+        </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(0,0,0);</string>
+         <string notr="true">background-color: rgb(136, 138, 133);</string>
         </property>
        </widget>
       </item>
