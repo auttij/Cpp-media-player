@@ -27,3 +27,7 @@ Install required libraries:
 ```
 sudo apt-get install libgl1-mesa-dev libpulse-dev
 ```
+
+```
+sudo apt-get install qtmultimedia5-dev libqt5multimediawidgets5 libqt5multimedia5-plugins libqt5multimedia5
+```
