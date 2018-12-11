@@ -90,7 +90,6 @@ void MainWindow::on_play_clicked()
 
 void MainWindow::on_mute_clicked()
 {
-    qInfo() << player->isMuted();
     player->setMuted(!player->isMuted());
     ui->mute->setIcon(style()->standardIcon(player->isMuted() ? QStyle::SP_MediaVolumeMuted : QStyle::SP_MediaVolume));
 }
