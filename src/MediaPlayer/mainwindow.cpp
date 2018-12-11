@@ -38,6 +38,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->volume->setSliderPosition(50);
     connect(player, &QMediaPlayer::durationChanged, this, &MainWindow::set_duration);
     connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::progress_media);
+    connect(player, &QMediaPlayer::mediaStatusChanged, this, &MainWindow::status_changed);
+
 
     videoWidget = ui->videoWidget;
     player->setVideoOutput(videoWidget);
@@ -190,8 +192,6 @@ void MainWindow::display_meta_data(std::vector<std::pair<QString, QVariant>> met
     size_t list_size = metadata.size();
     QStringList headers = { "Name", "Value" };
 
-    qInfo() << list_size;
-
     ui->metaTable->clear();
     ui->metaTable->setColumnCount(2);
     ui->metaTable->setRowCount(int (list_size));
@@ -207,10 +207,9 @@ void MainWindow::display_meta_data(std::vector<std::pair<QString, QVariant>> met
 
 }
 
-void MainWindow::media_status_changed()
+void MainWindow::status_changed()
 {
-//    if(player->mediaStatus() == QMediaPlayer::LoadedMedia)
-//    {
+    if (player->mediaStatus() == QMediaPlayer::BufferedMedia ||
+            player->mediaStatus() == QMediaPlayer::LoadedMedia)
         get_meta_data();
-//    }
 }

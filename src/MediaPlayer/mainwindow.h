@@ -58,6 +58,8 @@ private slots:
 
     QString format_time(int seconds);
 
+    void status_changed();
+
     void on_mute_clicked();
 
 private:
