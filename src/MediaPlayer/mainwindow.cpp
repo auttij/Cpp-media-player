@@ -11,6 +11,7 @@
 #include <QMimeData>
 #include <QDropEvent>
 #include <QVariant>
+#include <QTableWidget>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -24,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->mute->setIcon(style()->standardIcon((QStyle::SP_MediaVolume)));
     ui->mute->setFixedSize(40,40);
-    
+
     ui->meta->setIcon(style()->standardIcon(QStyle::SP_FileIcon));
     ui->meta->setFixedSize(40, 40);
 
@@ -173,15 +174,43 @@ void MainWindow::get_meta_data()
    int list_size = metadatalist.size();
    QString metadata_key;
    QVariant var_data;
+   std::vector<std::pair<QString, QVariant>> metadata;
 
    for (int i = 0; i < list_size; i++)
    {
      metadata_key = metadatalist.at(i);
      var_data = player->metaData(metadata_key);
-
-     qDebug() << metadata_key << var_data.toString();
+     metadata.push_back(std::make_pair(metadata_key, var_data));
    }
- }
+   display_meta_data(metadata);
+}
 
+void MainWindow::display_meta_data(std::vector<std::pair<QString, QVariant>> metadata)
+{
+    size_t list_size = metadata.size();
+    QStringList headers = { "Name", "Value" };
 
+    qInfo() << list_size;
 
+    ui->metaTable->clear();
+    ui->metaTable->setColumnCount(2);
+    ui->metaTable->setRowCount(int (list_size));
+    ui->metaTable->setHorizontalHeaderLabels(headers);
+    ui->metaTable->verticalHeader()->setVisible(false);
+    ui->metaTable->horizontalHeader()->setStretchLastSection(true);
+
+    for (size_t i = 0; i < list_size; i++) {
+        std::pair<QString, QVariant> pair = metadata[i];
+        ui->metaTable->setItem(int (i), 0, new QTableWidgetItem(pair.first));
+        ui->metaTable->setItem(int (i), 1, new QTableWidgetItem(pair.second.toString()));
+    }
+
+}
+
+void MainWindow::media_status_changed()
+{
+//    if(player->mediaStatus() == QMediaPlayer::LoadedMedia)
+//    {
+        get_meta_data();
+//    }
+}

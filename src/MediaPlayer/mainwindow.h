@@ -46,6 +46,8 @@ private slots:
 
     void update_seek_slider(int progress);
 
+    void display_meta_data(std::vector<std::pair<QString, QVariant>> metadata);
+
     //[DRAG & DROP]
     void dropEvent(QDropEvent* event);
 
