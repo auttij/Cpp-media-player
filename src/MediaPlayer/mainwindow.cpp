@@ -40,7 +40,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     videoWidget = ui->videoWidget;
     player->setVideoOutput(videoWidget);
-    connect(player, &QMediaPlayer::mediaStatusChanged, this, &MainWindow::on_media_status_changed);
 }
 
 MainWindow::~MainWindow()
