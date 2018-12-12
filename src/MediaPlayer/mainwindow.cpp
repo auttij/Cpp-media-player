@@ -30,6 +30,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->open->setFixedSize(90,40);
     player->setVolume(50);
     ui->volume->setSliderPosition(50);
+    ui->metaTable->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
     connect(player, &QMediaPlayer::durationChanged, this, &MainWindow::set_duration);
     connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::progress_media);
     connect(player, &QMediaPlayer::mediaStatusChanged, this, &MainWindow::status_changed);
@@ -182,7 +184,9 @@ void MainWindow::display_meta_data(QMap<QString, QVariant> metadata)
     ui->metaTable->setRowCount(list_size);
     ui->metaTable->setHorizontalHeaderLabels(headers);
     ui->metaTable->verticalHeader()->setVisible(false);
-    ui->metaTable->horizontalHeader()->setStretchLastSection(true);
+    //ui->metaTable->horizontalHeader()->setStretchLastSection(true);
+    ui->metaTable->setColumnWidth(0, 104);
+    ui->metaTable->setColumnWidth(1, 104);
 
     QMapIterator<QString, QVariant> i(metadata);
     int j = 0;
