@@ -18,7 +18,7 @@
     <item>
      <layout class="QHBoxLayout" name="video_and_frame">
       <item>
-       <widget class="QWidget" name="videoWidget" native="true">
+       <widget class="MediaWidget" name="videoWidget" native="true">
         <property name="minimumSize">
          <size>
           <width>515</width>
@@ -58,7 +58,7 @@
      </layout>
     </item>
     <item>
-     <layout class="QGridLayout" name="gridLayout_3">
+     <layout class="QGridLayout" name="controls">
       <property name="sizeConstraint">
        <enum>QLayout::SetDefaultConstraint</enum>
       </property>
@@ -178,6 +178,14 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>MediaWidget</class>
+   <extends>QWidget</extends>
+   <header>mediawidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
