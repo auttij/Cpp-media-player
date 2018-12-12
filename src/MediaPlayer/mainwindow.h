@@ -34,7 +34,7 @@ private slots:
     //[HELPERS]
     void open_media(QUrl url);
 
-    void init_media(QString name);
+    void update_title(QString title);
 
     void play_media();
 
@@ -46,7 +46,7 @@ private slots:
 
     void update_seek_slider(int progress);
 
-    void display_meta_data(std::vector<std::pair<QString, QVariant>> metadata);
+    void display_meta_data(QMap<QString, QVariant> metadata);
 
     //[DRAG & DROP]
     void dropEvent(QDropEvent* event);
@@ -54,7 +54,7 @@ private slots:
     void dragEnterEvent(QDragEnterEvent *event);
 
     //[UTIL]
-    void get_meta_data();
+    QMap<QString, QVariant> get_meta_data();
 
     QString format_time(int seconds);
 
