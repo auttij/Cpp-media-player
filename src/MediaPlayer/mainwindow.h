@@ -20,8 +20,6 @@ private slots:
 
     //[CLICK HANDLERS]
     void on_play_clicked();
-    
-    void on_meta_clicked();
 
     void on_open_clicked();
 

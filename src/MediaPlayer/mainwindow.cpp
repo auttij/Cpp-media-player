@@ -160,14 +160,6 @@ void MainWindow::dropEvent(QDropEvent* event)
     open_media(event->mimeData()->urls()[0]);
 }
 
-void MainWindow::on_meta_clicked()
-{
-    if(player->mediaStatus() == QMediaPlayer::NoMedia)
-        qInfo() << "No media playing";
-    else
-        get_meta_data();
-}
-
 QMap<QString, QVariant> MainWindow::get_meta_data()
 {
    // Get the list of keys there is metadata available for
