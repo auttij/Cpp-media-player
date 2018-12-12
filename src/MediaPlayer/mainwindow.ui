@@ -18,7 +18,7 @@
     <item>
      <layout class="QHBoxLayout" name="video_and_frame">
       <item>
-       <widget class="MediaWidget" name="videoWidget" native="true">
+       <widget class="QWidget" name="videoWidget" native="true">
         <property name="minimumSize">
          <size>
           <width>515</width>
@@ -79,7 +79,7 @@
        </widget>
       </item>
       <item row="1" column="2">
-       <widget class="QLabel" name="song_length">
+       <widget class="QLabel" name="media_length">
         <property name="text">
          <string>0:00</string>
         </property>
@@ -122,7 +122,7 @@
        </widget>
       </item>
       <item row="0" column="1" alignment="Qt::AlignHCenter">
-       <widget class="QLabel" name="curr_song">
+       <widget class="QLabel" name="media_name">
         <property name="text">
          <string/>
         </property>
@@ -178,14 +178,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>MediaWidget</class>
-   <extends>QWidget</extends>
-   <header>mediawidget.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

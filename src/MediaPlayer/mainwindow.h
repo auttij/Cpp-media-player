@@ -1,8 +1,14 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <mediaplayer.h>
+
 #include <QMainWindow>
 #include <QMediaPlayer>
+#include <QPushButton>
+#include <QLabel>
+#include <QSlider>
+#include <QVideoWidget>
 
 namespace Ui {
     class MainWindow;
@@ -15,6 +21,12 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+    void update_seek_slider(int position);
+
+    void update_media_name(QString name);
+
+    void set_duration(int duration);
 
 private slots:
 
@@ -29,39 +41,29 @@ private slots:
 
     void on_volume_sliderMoved(int position);
 
-    //[HELPERS]
-    void open_media(QUrl url);
+    void on_mute_clicked();
 
-    void init_media(QString name);
+private:
+    MediaPlayer* player;
+    Ui::MainWindow *ui;
+
+    QPushButton *btn_play, *btn_open, *btn_mute;
+    QLabel *lbl_media_name, *lbl_time_passed, *lbl_media_length;
+    QSlider *sldr_seek, *sldr_volume;
+    QVideoWidget *widget_video;
+
+    QIcon icon_play, icon_pause, icon_unmute, icon_mute;
 
     void play_media();
 
     void pause_media();
-
-    void set_duration(int duration);
-
-    void progress_media(int progress);
-
-    void update_seek_slider(int progress);
 
     //[DRAG & DROP]
     void dropEvent(QDropEvent* event);
 
     void dragEnterEvent(QDragEnterEvent *event);
 
-    //[UTIL]
     QString format_time(int seconds);
-
-    void on_mute_clicked();
-
-private:
-    Ui::MainWindow *ui;
-    void loadMediaFile();
-    QMediaPlayer* player = new QMediaPlayer(this);
-    QVideoWidget* videoWidget;
-    std::string currentSong;
-    int duration_in_ms;
-
 };
 
 
