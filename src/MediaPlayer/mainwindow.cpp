@@ -5,11 +5,13 @@
 #include <QStandardPaths>
 #include <QTextStream>
 #include <QTime>
+#include <QMediaMetaData>
 #include <QStyle>
 #include <QVideoWidget>
 #include <QMimeData>
 #include <QDropEvent>
 #include <QVariant>
+#include <QTableWidget>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -30,6 +32,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->volume->setSliderPosition(50);
     connect(player, &QMediaPlayer::durationChanged, this, &MainWindow::set_duration);
     connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::progress_media);
+    connect(player, &QMediaPlayer::mediaStatusChanged, this, &MainWindow::status_changed);
+
 
     videoWidget = ui->videoWidget;
     player->setVideoOutput(videoWidget);
@@ -59,16 +63,15 @@ void MainWindow::loadMediaFile() {
 void MainWindow::open_media(QUrl url)
 {
     player->setMedia(url);
-    QString title = player->metaData("title").toString();
-    QString name = !title.isEmpty() ? title : url.fileName();
-    init_media(name); //TODO: media name has file extension suffix in the end
+    player->setPosition(0);
     play_media();
 }
 
-void MainWindow::init_media(QString name)
+void MainWindow::update_title(QString title)
 {
+    QUrl url = player->media().canonicalUrl();
+    QString name = title.length() != 0 ? title : url.fileName();
     ui->curr_song->setText(name);
-    player->setPosition(0);
 }
 
 void MainWindow::play_media()
@@ -151,3 +154,52 @@ void MainWindow::dropEvent(QDropEvent* event)
     open_media(event->mimeData()->urls()[0]);
 }
 
+QMap<QString, QVariant> MainWindow::get_meta_data()
+{
+   // Get the list of keys there is metadata available for
+   QStringList metadatalist = player->availableMetaData();
+   int list_size = metadatalist.size();
+   QString metadata_key;
+   QVariant var_data;
+   QMap<QString, QVariant> metadata;
+
+   for (int i = 0; i < list_size; i++)
+   {
+     metadata_key = metadatalist.at(i);
+     var_data = player->metaData(metadata_key);
+     metadata[metadata_key] = var_data;
+   }
+   return metadata;
+}
+
+void MainWindow::display_meta_data(QMap<QString, QVariant> metadata)
+{
+    int list_size = metadata.size();
+    QStringList headers = { "Name", "Value" };
+
+    ui->metaTable->clear();
+    ui->metaTable->setColumnCount(2);
+    ui->metaTable->setRowCount(list_size);
+    ui->metaTable->setHorizontalHeaderLabels(headers);
+    ui->metaTable->verticalHeader()->setVisible(false);
+    ui->metaTable->horizontalHeader()->setStretchLastSection(true);
+
+    QMapIterator<QString, QVariant> i(metadata);
+    int j = 0;
+    while (i.hasNext()) {
+        i.next();
+        ui->metaTable->setItem(j, 0, new QTableWidgetItem(i.key()));
+        ui->metaTable->setItem(j++, 1, new QTableWidgetItem(i.value().toString()));
+    }
+}
+
+void MainWindow::status_changed()
+{
+    if (player->mediaStatus() == QMediaPlayer::BufferedMedia ||
+            player->mediaStatus() == QMediaPlayer::LoadedMedia)
+    {
+        QMap<QString, QVariant> metadata = get_meta_data();
+        display_meta_data(metadata);
+        update_title(metadata["Title"].toString());
+    }
+}

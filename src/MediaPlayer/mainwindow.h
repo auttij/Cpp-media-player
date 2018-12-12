@@ -32,7 +32,7 @@ private slots:
     //[HELPERS]
     void open_media(QUrl url);
 
-    void init_media(QString name);
+    void update_title(QString title);
 
     void play_media();
 
@@ -44,13 +44,19 @@ private slots:
 
     void update_seek_slider(int progress);
 
+    void display_meta_data(QMap<QString, QVariant> metadata);
+
     //[DRAG & DROP]
     void dropEvent(QDropEvent* event);
 
     void dragEnterEvent(QDragEnterEvent *event);
 
     //[UTIL]
+    QMap<QString, QVariant> get_meta_data();
+
     QString format_time(int seconds);
+
+    void status_changed();
 
     void on_mute_clicked();
 
