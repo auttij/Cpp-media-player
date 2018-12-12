@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
     lbl_media_length = ui->media_length;
     sldr_seek = ui->seek;
     sldr_volume = ui->volume;
-    //widget_video = ui->videoWidget;
+    widget_video = ui->videoWidget;
 
     icon_play = style()->standardIcon(QStyle::SP_MediaPlay);
     icon_pause = style()->standardIcon(QStyle::SP_MediaPause);

@@ -22,12 +22,6 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void update_seek_slider(int position);
-
-    void update_media_name(QString name);
-
-    void set_duration(int duration);
-
 private slots:
 
     //[CLICK HANDLERS]
@@ -47,24 +41,30 @@ private:
     MediaPlayer* player;
     Ui::MainWindow *ui;
 
+    QIcon icon_play, icon_pause, icon_unmute, icon_mute;
+
+    //[UI ELEMENTS]
     QPushButton *btn_play, *btn_open, *btn_mute;
     QLabel *lbl_media_name, *lbl_time_passed, *lbl_media_length;
     QSlider *sldr_seek, *sldr_volume;
     QVideoWidget *widget_video;
 
-    QIcon icon_play, icon_pause, icon_unmute, icon_mute;
-
+    //[HELPERS]
     void play_media();
 
     void pause_media();
+
+    void update_seek_slider(int position);
+
+    void set_duration(int duration);
+
+    QString format_time(int seconds);
 
     //[DRAG & DROP]
     void dropEvent(QDropEvent* event);
 
     void dragEnterEvent(QDragEnterEvent *event);
 
-    QString format_time(int seconds);
 };
-
 
 #endif // MAINWINDOW_H

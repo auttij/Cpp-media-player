@@ -18,14 +18,6 @@ public:
 
     bool is_playing();
 
-    //void open_media(QUrl url);
-
-public slots:
-
-    //[CLICK HANDLERS]
-
-    //void play_clicked();
-
 private:
 
     //[HELPERS]
@@ -39,6 +31,5 @@ private:
     void update_seek_slider(int progress);
 
 };
-
 
 #endif // MEDIAPLAYER_H

@@ -30,7 +30,8 @@ bool MediaPlayer::open_file_browser() {
     QFileDialog fileDialog(new QWidget());
     fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
     fileDialog.setWindowTitle(tr("Open Media File"));
-    fileDialog.setDirectory(QStandardPaths::standardLocations(QStandardPaths::MusicLocation).value(0, QDir::homePath())); //TODO: Change start location
+    fileDialog.setDirectory(QStandardPaths::standardLocations(QStandardPaths::MusicLocation).value(0, QDir::homePath()));
+
     bool success = fileDialog.exec();
     if (success) {
         this->setMedia(fileDialog.selectedUrls().first());
