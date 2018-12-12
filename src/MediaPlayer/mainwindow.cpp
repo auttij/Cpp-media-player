@@ -36,20 +36,19 @@ MainWindow::MainWindow(QWidget *parent) :
     icon_unmute = style()->standardIcon(QStyle::SP_MediaVolume);
     icon_mute = style()->standardIcon(QStyle::SP_MediaVolumeMuted);
 
-    setAcceptDrops(true);
+    btn_play->setIcon(icon_play);
+    btn_mute->setIcon(icon_unmute);
 
-    btn_play->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
     btn_play->setFixedSize(60,60);
-
-    btn_mute->setIcon(style()->standardIcon(QStyle::SP_MediaVolume));
     btn_mute->setFixedSize(40,40);
-
-    lbl_media_name->setFixedSize(200, 40);
     btn_open->setFixedSize(90,40);
+    lbl_media_name->setFixedSize(200, 40);
     sldr_volume->setSliderPosition(50);
 
     Q_ASSERT(connect(player, &QMediaPlayer::durationChanged, this, &MainWindow::set_duration));
     Q_ASSERT(connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::update_seek_slider));
+
+    setAcceptDrops(true);
 }
 
 MainWindow::~MainWindow()

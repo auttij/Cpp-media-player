@@ -182,7 +182,7 @@
   <customwidget>
    <class>MediaWidget</class>
    <extends>QWidget</extends>
-   <header>mediawidget.h</header>
+   <header location="global">mediawidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
