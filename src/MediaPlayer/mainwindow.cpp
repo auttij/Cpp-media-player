@@ -26,9 +26,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->mute->setIcon(style()->standardIcon((QStyle::SP_MediaVolume)));
     ui->mute->setFixedSize(40,40);
 
-    ui->meta->setIcon(style()->standardIcon(QStyle::SP_FileIcon));
-    ui->meta->setFixedSize(40, 40);
-
     ui->open->setFixedSize(90,40);
     ui->curr_song->setFixedSize(200, 40);
 
