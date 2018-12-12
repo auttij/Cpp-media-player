@@ -9,6 +9,7 @@
 #include <QLabel>
 #include <QSlider>
 #include <QVideoWidget>
+#include <QTableWidget>
 
 namespace Ui {
     class MainWindow;
@@ -48,8 +49,11 @@ private:
     QLabel *lbl_media_name, *lbl_time_passed, *lbl_media_length;
     QSlider *sldr_seek, *sldr_volume;
     QVideoWidget *widget_video;
+    QTableWidget *meta_table;
 
     //[HELPERS]
+    void update_title(QString title);
+
     void play_media();
 
     void pause_media();
@@ -60,11 +64,16 @@ private:
 
     QString format_time(int seconds);
 
+    void display_meta_data(QMap<QString, QVariant> metadata);
+
+    QMap<QString, QVariant> get_meta_data();
+
+    void status_changed();
+
     //[DRAG & DROP]
     void dropEvent(QDropEvent* event);
 
     void dragEnterEvent(QDragEnterEvent *event);
-
 };
 
 #endif // MAINWINDOW_H
