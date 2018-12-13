@@ -15,6 +15,7 @@ Project directories:
 ## Requirements & Installation
 This software works with Qt 5.11+. Recommended way to build and run this project is to use QtCreator.
 If you are not using QtCreator to build, the following qmake call can be used instead.
+
 Release:
 ```
 qmake src/MediaPlayer/MediaPlayer.pro -spec linux-g++ CONFIG+=qtquickcompiler
@@ -25,6 +26,9 @@ Debug:
 qmake src/MediaPlayer/MediaPlayer.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
 ```
 This will create a Makefile for you which will compile the project.
+
+
+You can also use `build.sh` which is found in src/build/
 
 
 ### Install required libraries:
