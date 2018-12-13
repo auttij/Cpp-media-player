@@ -9,7 +9,7 @@ Project directories:
 
   * `src/` -- here are the C++ source files. 
 
-* `resources/`-- here are audio & video samples.
+  * `samples/`-- here are audio & video samples.
 
 
 ## Requirements & Installation
