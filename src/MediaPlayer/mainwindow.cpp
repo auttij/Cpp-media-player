@@ -50,9 +50,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     meta_table->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    Q_ASSERT(connect(player, &QMediaPlayer::durationChanged, this, &MainWindow::set_duration));
-    Q_ASSERT(connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::update_seek_slider));
-    Q_ASSERT(connect(player, &QMediaPlayer::mediaStatusChanged, this, &MainWindow::status_changed));
+    connect(player, &QMediaPlayer::durationChanged, this, &MainWindow::set_duration);
+    connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::update_seek_slider);
+    connect(player, &QMediaPlayer::mediaStatusChanged, this, &MainWindow::status_changed);
 
     setAcceptDrops(true);
 }
