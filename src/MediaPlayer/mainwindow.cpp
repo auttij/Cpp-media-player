@@ -52,7 +52,9 @@ MainWindow::MainWindow(QWidget *parent) :
     sldr_volume->setSliderPosition(50);
     player->setVideoOutput(widget_video);
 
+    meta_table->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     meta_table->setFocusPolicy(Qt::NoFocus);
+    meta_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     connect(player, &QMediaPlayer::durationChanged, this, &MainWindow::set_duration);
     connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::update_seek_slider);
@@ -79,7 +81,7 @@ void MainWindow::end_of_media() {
 
 void MainWindow::on_open_clicked()
 {
-    if (player->open_file_browser()) {
+    if (player->open_media()) {
         play_media();
     }
 }
@@ -142,7 +144,7 @@ QString MainWindow::format_time(int seconds)
 {
     int minutes = seconds / 60;
     int hours = minutes / 60 ;
-    QTime currentTime(hours, minutes, seconds % 60); //TODO: current time for song is updated first time when 2 seconds are passed for some reason
+    QTime currentTime(hours, minutes, seconds % 60);
     QString format = hours >= 1 ? "hh:mm:ss" : "mm:ss";
     return currentTime.toString(format);
 }

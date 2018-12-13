@@ -120,7 +120,7 @@ private:
     void set_duration(int duration_in_ms);
 
     /*!
-     * \brief format_time creates a QString (hh:mm:ss) from seconds
+     * \brief format_time creates a QString from seconds
      * \param int seconds
      * \return QString
      */
@@ -155,9 +155,9 @@ protected:
      */
     void dropEvent(QDropEvent* event) override;
 
-    void keyPressEvent(QKeyEvent *event) override;
-
     void dragEnterEvent(QDragEnterEvent *event) override;
+
+    void keyPressEvent(QKeyEvent *event) override;
 };
 
 #endif // MAINWINDOW_H

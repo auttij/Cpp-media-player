@@ -21,7 +21,7 @@ MediaPlayer::~MediaPlayer()
 {
 }
 
-bool MediaPlayer::open_file_browser() {
+bool MediaPlayer::open_media() {
     QFileDialog fileDialog(new QWidget());
     fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
     fileDialog.setWindowTitle(tr("Open Media File"));
