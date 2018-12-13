@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    player = new MediaPlayer();
+    player = new MediaPlayer(this);
     ui->setupUi(this);
 
     btn_play = ui->play;
@@ -70,6 +70,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete player;
 }
 
 void MainWindow::end_of_media() {
