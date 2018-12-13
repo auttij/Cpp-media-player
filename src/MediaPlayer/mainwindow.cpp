@@ -53,11 +53,6 @@ MainWindow::MainWindow(QWidget *parent) :
     player->setVideoOutput(widget_video);
 
     meta_table->setFocusPolicy(Qt::NoFocus);
-    meta_table->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    meta_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    meta_table->verticalHeader()->setVisible(false);
-    /*
-    */
 
     connect(player, &QMediaPlayer::durationChanged, this, &MainWindow::set_duration);
     connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::update_seek_slider);
@@ -189,12 +184,16 @@ QMap<QString, QVariant> MainWindow::get_meta_data()
 
 void MainWindow::display_meta_data(QMap<QString, QVariant> metadata)
 {
+    int list_size = metadata.size();
+    QStringList headers = { "Name", "Value" };
+
     meta_table->clear();
     meta_table->setColumnCount(2);
-    meta_table->setHorizontalHeaderLabels({ "Name", "Value" });
-    meta_table->setRowCount(metadata.size());
+    meta_table->setRowCount(list_size);
+    meta_table->setHorizontalHeaderLabels(headers);
+    meta_table->verticalHeader()->setVisible(false);
     meta_table->horizontalHeader()->setStretchLastSection(true);
-    meta_table->setColumnWidth(0, 130);
+    meta_table->setColumnWidth(0, 104);
     meta_table->setColumnWidth(1, 104);
 
     QMapIterator<QString, QVariant> i(metadata);
