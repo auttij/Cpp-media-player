@@ -1,8 +1,16 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "mediaplayer.h"
+#include "mediawidget.h"
+
 #include <QMainWindow>
 #include <QMediaPlayer>
+#include <QPushButton>
+#include <QLabel>
+#include <QSlider>
+#include <QVideoWidget>
+#include <QTableWidget>
 
 namespace Ui {
     class MainWindow;
@@ -29,46 +37,42 @@ private slots:
 
     void on_volume_sliderMoved(int position);
 
+    void on_mute_clicked();
+
+private:
+    MediaPlayer* player;
+    Ui::MainWindow *ui;
+
+    QIcon icon_play, icon_pause, icon_unmute, icon_mute;
+
+    //[UI ELEMENTS]
+    QPushButton *btn_play, *btn_open, *btn_mute;
+    QLabel *lbl_media_name, *lbl_time_passed, *lbl_media_length;
+    QSlider *sldr_seek, *sldr_volume;
+    QVideoWidget *widget_video;
+    QTableWidget *meta_table;
+
     //[HELPERS]
-    void open_media(QUrl url);
-
-    void update_title(QString title);
-
     void play_media();
 
     void pause_media();
 
+    void update_seek_slider(int position);
+
     void set_duration(int duration);
 
-    void progress_media(int progress);
-
-    void update_seek_slider(int progress);
+    QString format_time(int seconds);
 
     void display_meta_data(QMap<QString, QVariant> metadata);
+
+    QMap<QString, QVariant> get_meta_data();
+
+    void status_changed();
 
     //[DRAG & DROP]
     void dropEvent(QDropEvent* event);
 
     void dragEnterEvent(QDragEnterEvent *event);
-
-    //[UTIL]
-    QMap<QString, QVariant> get_meta_data();
-
-    QString format_time(int seconds);
-
-    void status_changed();
-
-    void on_mute_clicked();
-
-private:
-    Ui::MainWindow *ui;
-    void loadMediaFile();
-    QMediaPlayer* player = new QMediaPlayer(this);
-    QVideoWidget* videoWidget;
-    std::string currentSong;
-    int duration_in_ms;
-
 };
-
 
 #endif // MAINWINDOW_H

@@ -146,7 +146,7 @@
        </widget>
       </item>
       <item row="1" column="2">
-       <widget class="QLabel" name="song_length">
+       <widget class="QLabel" name="media_length">
         <property name="text">
          <string>0:00</string>
         </property>
@@ -163,7 +163,7 @@
        </widget>
       </item>
       <item row="0" column="1" alignment="Qt::AlignHCenter">
-       <widget class="QLabel" name="curr_song">
+       <widget class="QLabel" name="media_name">
         <property name="text">
          <string/>
         </property>
@@ -179,7 +179,7 @@
      <x>0</x>
      <y>0</y>
      <width>799</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
@@ -200,7 +200,7 @@
   <customwidget>
    <class>MediaWidget</class>
    <extends>QWidget</extends>
-   <header>mediawidget.h</header>
+   <header location="global">mediawidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

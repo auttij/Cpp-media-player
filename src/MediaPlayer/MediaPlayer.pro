@@ -30,14 +30,16 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    mediawidget.cpp
+    mediawidget.cpp \
+    mediaplayer.cpp
 
 HEADERS += \
         mainwindow.h \
-    mediawidget.h
+    mediawidget.h \
+    mediaplayer.h
 
 FORMS += \
-        mainwindow.ui
+    mainwindow.ui
 
 
 # Default rules for deployment.

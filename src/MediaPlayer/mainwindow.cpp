@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "mediawidget.h"
+
 #include <QFile>
 #include <QFileDialog>
 #include <QStandardPaths>
@@ -17,28 +19,42 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    player = new MediaPlayer();
     ui->setupUi(this);
-    setAcceptDrops(true);
 
-    ui->play->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
-    ui->play->setFixedSize(60,60);
+    btn_play = ui->play;
+    btn_open = ui->open;
+    btn_mute = ui->mute;
+    lbl_media_name = ui->media_name;
+    lbl_time_passed = ui->time_passed;
+    lbl_media_length = ui->media_length;
+    sldr_seek = ui->seek;
+    sldr_volume = ui->volume;
+    meta_table = ui->metaTable;
+    widget_video = ui->videoWidget;
 
-    ui->mute->setIcon(style()->standardIcon((QStyle::SP_MediaVolume)));
-    ui->mute->setFixedSize(40,40);
+    icon_play = style()->standardIcon(QStyle::SP_MediaPlay);
+    icon_pause = style()->standardIcon(QStyle::SP_MediaPause);
+    icon_unmute = style()->standardIcon(QStyle::SP_MediaVolume);
+    icon_mute = style()->standardIcon(QStyle::SP_MediaVolumeMuted);
 
-    ui->curr_song->setFixedSize(200, 40);
-    ui->open->setFixedSize(90,40);
-    player->setVolume(50);
-    ui->volume->setSliderPosition(50);
-    ui->metaTable->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    btn_play->setIcon(icon_play);
+    btn_mute->setIcon(icon_unmute);
+
+    btn_play->setFixedSize(60,60);
+    btn_mute->setFixedSize(40,40);
+    btn_open->setFixedSize(90,40);
+    lbl_media_name->setFixedSize(200, 40);
+    sldr_volume->setSliderPosition(50);
+    player->setVideoOutput(widget_video);
+
+    meta_table->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     connect(player, &QMediaPlayer::durationChanged, this, &MainWindow::set_duration);
-    connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::progress_media);
+    connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::update_seek_slider);
     connect(player, &QMediaPlayer::mediaStatusChanged, this, &MainWindow::status_changed);
 
-
-    videoWidget = ui->videoWidget;
-    player->setVideoOutput(videoWidget);
+    setAcceptDrops(true);
 }
 
 MainWindow::~MainWindow()
@@ -48,66 +64,20 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_open_clicked()
 {
-    loadMediaFile();
-}
-
-void MainWindow::loadMediaFile() {
-    QFileDialog fileDialog(this);
-    fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
-    fileDialog.setWindowTitle(tr("Open Media File"));
-    fileDialog.setDirectory(QStandardPaths::standardLocations(QStandardPaths::MoviesLocation).value(0, QDir::homePath())); //TODO: Change start location
-
-    if (fileDialog.exec()) {
-        open_media(fileDialog.selectedUrls()[0]);
+    if(player->open_file_browser()){
+        play_media();
     }
-}
-
-void MainWindow::open_media(QUrl url)
-{
-    player->setMedia(url);
-    player->setPosition(0);
-    play_media();
-}
-
-void MainWindow::update_title(QString title)
-{
-    QUrl url = player->media().canonicalUrl();
-    QString name = title.length() != 0 ? title : url.fileName();
-    ui->curr_song->setText(name);
-}
-
-void MainWindow::play_media()
-{
-    player->play();
-    ui->play->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
-}
-
-void MainWindow::pause_media()
-{
-    player->pause();
-    ui->play->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
 }
 
 void MainWindow::on_play_clicked()
 {
-    player->state() == player->PausedState ? play_media() : pause_media();
+    player->is_playing() ? pause_media() : play_media();
 }
 
 void MainWindow::on_mute_clicked()
 {
     player->setMuted(!player->isMuted());
-    ui->mute->setIcon(style()->standardIcon(player->isMuted() ? QStyle::SP_MediaVolumeMuted : QStyle::SP_MediaVolume));
-}
-
-void MainWindow::on_seek_sliderMoved(int ms)
-{
-    ui->time_passed->setText(format_time(ms / 1000));
-}
-
-void MainWindow::on_seek_sliderReleased()
-{
-    update_seek_slider(ui->seek->value());
-
+    btn_mute->setIcon(player->isMuted() ? icon_mute : icon_unmute);
 }
 
 void MainWindow::on_volume_sliderMoved(int volume)
@@ -115,24 +85,42 @@ void MainWindow::on_volume_sliderMoved(int volume)
     player->setVolume(volume);
 }
 
-void MainWindow::set_duration(int duration_in_ms)
+void MainWindow::on_seek_sliderMoved(int ms)
 {
-    ui->seek->setMaximum(duration_in_ms);
-    ui->song_length->setText(format_time(duration_in_ms / 1000));
+    lbl_time_passed->setText(format_time(ms / 1000));
+}
+
+void MainWindow::on_seek_sliderReleased()
+{
+    int position = sldr_seek->value();
+    update_seek_slider(position);
+    player->setPosition(position);
 }
 
 void MainWindow::update_seek_slider(int progress)
 {
-    progress_media(progress);
-    player->setPosition(progress);
+    if(!sldr_seek->isSliderDown()){
+        sldr_seek->setValue(progress);
+        lbl_time_passed->setText(format_time(progress / 1000));
+    }
 }
 
-void MainWindow::progress_media(int progress)
+void MainWindow::play_media()
 {
-    if(!ui->seek->isSliderDown()){
-        ui->seek->setValue(progress);
-        ui->time_passed->setText(format_time(progress / 1000));
-    }
+    player->play();
+    btn_play->setIcon(icon_pause);
+}
+
+void MainWindow::pause_media()
+{
+    player->pause();
+    btn_play->setIcon(icon_play);
+}
+
+void MainWindow::set_duration(int duration_in_ms)
+{
+    sldr_seek->setMaximum(duration_in_ms);
+    lbl_media_length->setText(format_time(duration_in_ms / 1000));
 }
 
 QString MainWindow::format_time(int seconds)
@@ -153,7 +141,8 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 
 void MainWindow::dropEvent(QDropEvent* event)
 {
-    open_media(event->mimeData()->urls()[0]);
+    player->setMedia(event->mimeData()->urls().first());
+    play_media();
 }
 
 QMap<QString, QVariant> MainWindow::get_meta_data()
@@ -179,21 +168,21 @@ void MainWindow::display_meta_data(QMap<QString, QVariant> metadata)
     int list_size = metadata.size();
     QStringList headers = { "Name", "Value" };
 
-    ui->metaTable->clear();
-    ui->metaTable->setColumnCount(2);
-    ui->metaTable->setRowCount(list_size);
-    ui->metaTable->setHorizontalHeaderLabels(headers);
-    ui->metaTable->verticalHeader()->setVisible(false);
-    //ui->metaTable->horizontalHeader()->setStretchLastSection(true);
-    ui->metaTable->setColumnWidth(0, 104);
-    ui->metaTable->setColumnWidth(1, 104);
+    meta_table->clear();
+    meta_table->setColumnCount(2);
+    meta_table->setRowCount(list_size);
+    meta_table->setHorizontalHeaderLabels(headers);
+    meta_table->verticalHeader()->setVisible(false);
+    //meta_table->horizontalHeader()->setStretchLastSection(true);
+    meta_table->setColumnWidth(0, 104);
+    meta_table->setColumnWidth(1, 104);
 
     QMapIterator<QString, QVariant> i(metadata);
     int j = 0;
     while (i.hasNext()) {
         i.next();
-        ui->metaTable->setItem(j, 0, new QTableWidgetItem(i.key()));
-        ui->metaTable->setItem(j++, 1, new QTableWidgetItem(i.value().toString()));
+        meta_table->setItem(j, 0, new QTableWidgetItem(i.key()));
+        meta_table->setItem(j++, 1, new QTableWidgetItem(i.value().toString()));
     }
 }
 
@@ -204,6 +193,7 @@ void MainWindow::status_changed()
     {
         QMap<QString, QVariant> metadata = get_meta_data();
         display_meta_data(metadata);
-        update_title(metadata["Title"].toString());
+        QString title = metadata["Title"].toString();
+        lbl_media_name->setText(title.length() != 0 ? title : player->media().canonicalUrl().fileName());
     }
 }

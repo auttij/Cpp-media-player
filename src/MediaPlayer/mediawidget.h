@@ -1,5 +1,5 @@
-#ifndef MEDIAPLAYER_H
-#define MEDIAPLAYER_H
+#ifndef MEDIAWIDGET_H
+#define MEDIAWIDGET_H
 
 #include <QVideoWidget>
 /**
@@ -18,4 +18,4 @@ protected:
     void mouseDoubleClickEvent(QMouseEvent *event) override;
 };
 
-#endif // MEDIAPLAYER_H
+#endif // MEDIAWIDGET_H
