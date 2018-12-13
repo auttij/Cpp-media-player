@@ -17,13 +17,6 @@ public:
     ~MediaPlayer();
 
     /*!
-     * \brief set_video_widget adds a video widget to this player
-     * \param video_widget
-     * \return void
-     */
-    void set_video_widget(QVideoWidget* video_widget);
-
-    /*!
      * \brief open_file_browser opens the file browser
      * \return bool
      */
@@ -34,18 +27,6 @@ public:
      * \return bool
      */
     bool is_playing();
-
-private:
-
-    //[HELPERS]
-
-    void init_media(QString name);
-
-    void set_duration(int duration);
-
-    void progress_media(int progress);
-
-    void update_seek_slider(int progress);
 
 };
 

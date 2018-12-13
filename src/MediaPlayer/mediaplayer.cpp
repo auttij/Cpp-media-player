@@ -21,11 +21,6 @@ MediaPlayer::~MediaPlayer()
 {
 }
 
-void MediaPlayer::set_video_widget(QVideoWidget* video_widget)
-{
-    this->setVideoOutput(video_widget);
-}
-
 bool MediaPlayer::open_file_browser() {
     QFileDialog fileDialog(new QWidget());
     fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
