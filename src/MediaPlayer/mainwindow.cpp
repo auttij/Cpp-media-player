@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "mediawidget.h"
 
 #include <QFile>
 #include <QFileDialog>
@@ -45,16 +46,15 @@ MainWindow::MainWindow(QWidget *parent) :
     btn_open->setFixedSize(90,40);
     lbl_media_name->setFixedSize(200, 40);
     sldr_volume->setSliderPosition(50);
+    player->setVideoOutput(widget_video);
+
+    meta_table->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     Q_ASSERT(connect(player, &QMediaPlayer::durationChanged, this, &MainWindow::set_duration));
     Q_ASSERT(connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::update_seek_slider));
-
     Q_ASSERT(connect(player, &QMediaPlayer::mediaStatusChanged, this, &MainWindow::status_changed));
 
     setAcceptDrops(true);
-
-
-    meta_table->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
 MainWindow::~MainWindow()
@@ -69,21 +69,9 @@ void MainWindow::on_open_clicked()
     }
 }
 
-
-void MainWindow::update_title(QString title)
-{
-    QUrl url = player->media().canonicalUrl();
-    QString name = title.length() != 0 ? title : url.fileName();
-    lbl_media_name->setText(name);
-}
-
 void MainWindow::on_play_clicked()
 {
-    if(player->is_playing()){
-        pause_media();
-    }else{
-        play_media();
-    }
+    player->is_playing() ? pause_media() : play_media();
 }
 
 void MainWindow::on_mute_clicked()
@@ -205,6 +193,7 @@ void MainWindow::status_changed()
     {
         QMap<QString, QVariant> metadata = get_meta_data();
         display_meta_data(metadata);
-        update_title(metadata["Title"].toString());
+        QString title = metadata["Title"].toString();
+        lbl_media_name->setText(title.length() != 0 ? title : player->media().canonicalUrl().fileName());
     }
 }

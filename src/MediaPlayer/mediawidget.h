@@ -1,5 +1,5 @@
-#ifndef MEDIAPLAYER_H
-#define MEDIAPLAYER_H
+#ifndef MEDIAWIDGET_H
+#define MEDIAWIDGET_H
 
 #include <QVideoWidget>
 /**

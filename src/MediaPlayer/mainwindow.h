@@ -1,7 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <mediaplayer.h>
+#include "mediaplayer.h"
+#include "mediawidget.h"
 
 #include <QMainWindow>
 #include <QMediaPlayer>
@@ -52,8 +53,6 @@ private:
     QTableWidget *meta_table;
 
     //[HELPERS]
-    void update_title(QString title);
-
     void play_media();
 
     void pause_media();
