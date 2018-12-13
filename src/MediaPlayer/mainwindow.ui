@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>799</width>
+    <width>764</width>
     <height>540</height>
    </rect>
   </property>
@@ -33,7 +33,7 @@
         </property>
         <property name="maximumSize">
          <size>
-          <width>253</width>
+          <width>300</width>
           <height>16777215</height>
          </size>
         </property>
@@ -57,9 +57,15 @@
            </property>
            <property name="maximumSize">
             <size>
-             <width>15555</width>
+             <width>300</width>
              <height>16777215</height>
             </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font-size: 7pt</string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -184,8 +190,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>799</width>
-     <height>22</height>
+     <width>764</width>
+     <height>21</height>
     </rect>
    </property>
   </widget>
