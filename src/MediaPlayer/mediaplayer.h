@@ -12,23 +12,9 @@ public:
     MediaPlayer(QWidget *parent = nullptr);
     ~MediaPlayer();
 
-    void set_video_widget(QVideoWidget* video_widget);
-
     bool open_file_browser();
 
     bool is_playing();
-
-private:
-
-    //[HELPERS]
-
-    void init_media(QString name);
-
-    void set_duration(int duration);
-
-    void progress_media(int progress);
-
-    void update_seek_slider(int progress);
 
 };
 
