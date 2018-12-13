@@ -52,7 +52,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(player, &QMediaPlayer::durationChanged, this, &MainWindow::set_duration);
     connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::update_seek_slider);
+    connect(player, &QMediaPlayer::stateChanged, this, &MainWindow::end_of_media);
     connect(player, &QMediaPlayer::mediaStatusChanged, this, &MainWindow::status_changed);
+
 
     setAcceptDrops(true);
 }
@@ -60,6 +62,15 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::end_of_media() {
+
+    if (player->state() == player->StoppedState) {
+        player->setPosition(0);
+        pause_media();
+    }
+
 }
 
 void MainWindow::on_open_clicked()

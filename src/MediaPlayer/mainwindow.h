@@ -59,6 +59,8 @@ private:
 
     void update_seek_slider(int position);
 
+    void end_of_media();
+
     void set_duration(int duration);
 
     QString format_time(int seconds);
