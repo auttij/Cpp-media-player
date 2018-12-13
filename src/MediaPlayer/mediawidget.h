@@ -18,4 +18,4 @@ protected:
     void mouseDoubleClickEvent(QMouseEvent *event) override;
 };
 
-#endif // MEDIAPLAYER_H
+#endif // MEDIAWIDGET_H
