@@ -50,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     meta_table->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+
     connect(player, &QMediaPlayer::durationChanged, this, &MainWindow::set_duration);
     connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::update_seek_slider);
     connect(player, &QMediaPlayer::stateChanged, this, &MainWindow::end_of_media);
@@ -184,7 +185,7 @@ void MainWindow::display_meta_data(QMap<QString, QVariant> metadata)
     meta_table->setRowCount(list_size);
     meta_table->setHorizontalHeaderLabels(headers);
     meta_table->verticalHeader()->setVisible(false);
-    //meta_table->horizontalHeader()->setStretchLastSection(true);
+    meta_table->horizontalHeader()->setStretchLastSection(true);
     meta_table->setColumnWidth(0, 104);
     meta_table->setColumnWidth(1, 104);
 
