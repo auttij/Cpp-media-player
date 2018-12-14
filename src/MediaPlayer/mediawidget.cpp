@@ -6,7 +6,6 @@
 MediaWidget::MediaWidget(QWidget *parent)
     : QVideoWidget(parent)
 {
-
 }
 
 void MediaWidget::keyPressEvent(QKeyEvent *event)
