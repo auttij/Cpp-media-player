@@ -120,7 +120,7 @@ private:
     void set_duration(int duration_in_ms);
 
     /*!
-     * \brief format_time creates a QString (hh:mm:ss) from seconds
+     * \brief format_time creates a QString from seconds
      * \param int seconds
      * \return QString
      */
@@ -145,15 +145,19 @@ private:
      */
     void status_changed();
 
+protected:
     //[DRAG & DROP]
+
     /*!
      * \brief dropEvent is called when a new media file is dropped to the window. Updates current media to it
      * \param QDropEvent event
      * \return void
      */
-    void dropEvent(QDropEvent* event);
+    void dropEvent(QDropEvent* event) override;
 
-    void dragEnterEvent(QDragEnterEvent *event);
+    void dragEnterEvent(QDragEnterEvent *event) override;
+
+    void keyPressEvent(QKeyEvent *event) override;
 };
 
 #endif // MAINWINDOW_H

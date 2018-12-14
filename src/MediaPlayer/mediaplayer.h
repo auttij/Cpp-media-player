@@ -17,10 +17,10 @@ public:
     ~MediaPlayer();
 
     /*!
-     * \brief open_file_browser opens the file browser
+     * \brief open_media opens the file browser and sets the media file
      * \return bool
      */
-    bool open_file_browser();
+    bool open_media();
 
     /*!
      * \brief is_playing returns whether the current media is playing at the moment

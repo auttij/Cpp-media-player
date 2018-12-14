@@ -38,24 +38,28 @@ MainWindow::MainWindow(QWidget *parent) :
     icon_unmute = style()->standardIcon(QStyle::SP_MediaVolume);
     icon_mute = style()->standardIcon(QStyle::SP_MediaVolumeMuted);
 
-    btn_play->setIcon(icon_play);
-    btn_mute->setIcon(icon_unmute);
-
     btn_play->setFixedSize(60,60);
+    btn_play->setIcon(icon_play);
+
     btn_mute->setFixedSize(40,40);
+    btn_mute->setIcon(icon_unmute);
+    btn_mute->setFocusPolicy(Qt::NoFocus);
+
+    btn_open->setFocusPolicy(Qt::NoFocus);
+
     btn_open->setFixedSize(90,40);
     lbl_media_name->setFixedSize(200, 40);
     sldr_volume->setSliderPosition(50);
     player->setVideoOutput(widget_video);
 
     meta_table->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
+    meta_table->setFocusPolicy(Qt::NoFocus);
+    meta_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     connect(player, &QMediaPlayer::durationChanged, this, &MainWindow::set_duration);
     connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::update_seek_slider);
     connect(player, &QMediaPlayer::stateChanged, this, &MainWindow::end_of_media);
     connect(player, &QMediaPlayer::mediaStatusChanged, this, &MainWindow::status_changed);
-
 
     setAcceptDrops(true);
 }
@@ -77,7 +81,7 @@ void MainWindow::end_of_media() {
 
 void MainWindow::on_open_clicked()
 {
-    if(player->open_file_browser()){
+    if (player->open_media()) {
         play_media();
     }
 }
@@ -112,7 +116,7 @@ void MainWindow::on_seek_sliderReleased()
 
 void MainWindow::update_seek_slider(int progress)
 {
-    if(!sldr_seek->isSliderDown()){
+    if (!sldr_seek->isSliderDown()) {
         sldr_seek->setValue(progress);
         lbl_time_passed->setText(format_time(progress / 1000));
     }
@@ -140,7 +144,7 @@ QString MainWindow::format_time(int seconds)
 {
     int minutes = seconds / 60;
     int hours = minutes / 60 ;
-    QTime currentTime(hours, minutes, seconds % 60); //TODO: current time for song is updated first time when 2 seconds are passed for some reason
+    QTime currentTime(hours, minutes, seconds % 60);
     QString format = hours >= 1 ? "hh:mm:ss" : "mm:ss";
     return currentTime.toString(format);
 }
@@ -158,20 +162,24 @@ void MainWindow::dropEvent(QDropEvent* event)
     play_media();
 }
 
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Space) {
+        on_play_clicked();
+    }
+}
+
 QMap<QString, QVariant> MainWindow::get_meta_data()
 {
    // Get the list of keys there is metadata available for
    QStringList metadatalist = player->availableMetaData();
    int list_size = metadatalist.size();
    QString metadata_key;
-   QVariant var_data;
    QMap<QString, QVariant> metadata;
 
-   for (int i = 0; i < list_size; i++)
-   {
+   for (int i = 0; i < list_size; i++) {
      metadata_key = metadatalist.at(i);
-     var_data = player->metaData(metadata_key);
-     metadata[metadata_key] = var_data;
+     metadata[metadata_key] = player->metaData(metadata_key);
    }
    return metadata;
 }
@@ -201,9 +209,7 @@ void MainWindow::display_meta_data(QMap<QString, QVariant> metadata)
 
 void MainWindow::status_changed()
 {
-    if (player->mediaStatus() == QMediaPlayer::BufferedMedia ||
-            player->mediaStatus() == QMediaPlayer::LoadedMedia)
-    {
+    if (player->mediaStatus() == QMediaPlayer::BufferedMedia || player->mediaStatus() == QMediaPlayer::LoadedMedia) {
         QMap<QString, QVariant> metadata = get_meta_data();
         display_meta_data(metadata);
         QString title = metadata["Title"].toString();
